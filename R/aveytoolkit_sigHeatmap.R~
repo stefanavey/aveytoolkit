@@ -1,0 +1,59 @@
+#' sigHeatmap
+#'
+#' Draw heatmap with significance indicated on boxes
+#'
+#' @param hm a matrix of values used for drawing the heatmap
+#' @param pvals a list or data frame of (possibly FDR corrected but this is not handled by the function) positive p-values
+#' @param pvalDisplayName is printed on the heatmap as a legend.  Default is "P-value" but might want to change to "Q-value", "FDR", etc.
+#' @param cutoff is threshold for significance of pvals. Default is 0.05
+#' @param sigMethod one of "both", "up", or "down", can be abbreviated.
+#' @param plotTitle is a string used for the plotting title
+#' @param sigChar the character used for plotting on top of significant boxes
+#' @param Rowv should the rows be reordered, passed into heatmap.2
+#' @param ... other arguments passed to heatmap.2
+#' @return a vector indicating which of the rows of hm were determined to be significant and subsequently plotted
+#' @details Only rows with at least one significant column are plotted. If sigMethod is both, plots both positive and negative significant changes. If sigMethod is up or down, plots only rows of hm with significant positive or negative values respectively.
+#' @author Stefan Avey
+#' @keywords aveytoolkit
+#' @export
+sigHeatmap <- function(hm, pvals, pvalDisplayName="P-value", cutoff=0.05,
+                       sigMethod=c("both", "up", "down"), plotTitle="",
+                       sigChar='*', Rowv=T, ...)
+{
+  ## Do some checking for conditions we do not want
+  if(any(unlist(pvals) < 0) || any(unlist(pvals) > 1))
+    stop("pvals should be in interval [0, 1]")
+  if(length(sigChar > 1)) {
+    sigChar <- sigChar[1]
+    warning("sigChar has more than one character, only the first will be used")
+  require(gplots) # for heatmap function
+  pvals <- as.data.frame(pvals)
+  sigMethod <- match.arg(sigMethod)
+  subset <- rep(NA, nrow(pvals))
+  switch(sigMethod,
+         both =  { subset <- apply(pvals, 1, function(row) any(row < cutoff))
+                   cn <- pvals[subset,] < cutoff },
+         up = { for(i in 1:nrow(pvals)) {subset[i] <- any(pvals[i,] < cutoff
+                                                          & hm[i,] > 0) }
+                cn <- pvals[subset,] < cutoff & hm[subset,] > 0 },
+         down = { for(i in 1:nrow(pvals)) {subset[i] <- any(pvals[i,] < cutoff
+                                                            & hm[i,] < 0) }
+                  cn <- pvals[subset,] < cutoff & hm[subset,] < 0 }
+         )
+## cellnote (cn) begins as true or false and is replaced by sigChar or ""
+  ## Replace T and F with "*" and "" respectively
+  for(i in 1:nrow(cn)) { 
+    for(j in 1:ncol(cn)) {
+      if(cn[i,j]) {cn[i,j] <- sigChar}
+      else {cn[i,j] <- ""}
+    }
+  }
+#  subset2 <- apply(cn, 1, function(row) any(row == sigChar))
+  if(Rowv) {
+    hr <- hclust(as.dist(1-cor(t(hm[subset,]), method="spearman")), method="ward")
+    heatmap.2(hm[subset,], cellnote=cn, Rowv=as.dendrogram(hr), ...)
+  } else
+    heatmap.2(hm[subset,], cellnote=cn, Rowv=Rowv, ...)  
+  title(main=paste0("\n\n\n\n", plotTitle,"\n\n\n\n\n* ", pvalDisplayName, " < ", cutoff))
+  return(invisible(which(subset))) # return subset
+}

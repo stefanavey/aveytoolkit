@@ -1,0 +1,147 @@
+#' sigHeatmap
+#'
+#' Draw heatmap with significance indicated on boxes
+#'
+#' @param hm a matrix of values used for drawing the heatmap
+#' @param pvals a list or data frame of (possibly FDR corrected but this is not handled by the function) positive p-values
+#' @param pvalDisplayName is printed on the heatmap as a legend.  Default is "P-value" but might want to change to "Q-value", "FDR", etc.
+#' @param cutoff is threshold for significance of pvals. Default is 0.05
+#' @param showOnly one of "both", "positive", or "negative", can be abbreviated.
+#' @param plotTitle is a string used for the plotting title
+#' @param sigChar the character used for plotting on top of significant boxes
+#' @param Rowv should the rows be reordered, passed into heatmap.2
+#' @param ... other arguments passed to heatmap.2
+#' @return a vector indicating which of the rows of hm were determined to be significant and subsequently plotted
+#' @importFrom gplots heatmap.2
+#' @details Only rows with at least one significant column are plotted. If showOnly is "both", plots both positive and negative significant changes. If showOnly is "positive" or "negative", plots only rows of hm with significant positive or negative values respectively.
+#' @author Stefan Avey
+#' @keywords aveytoolkit
+#' @export
+#' @examples
+#' data(mtcars)
+#' x <- as.matrix(mtcars)
+#' alpha <- 10^-7 # significance threshold
+#' ## Caculate whether difference from mean is significant
+#' ## This is not done correctly but just to have some sort of significance
+#' diffMean <- mtcars-matrix(colMeans(mtcars),
+#'                           ncol=ncol(mtcars), nrow=nrow(mtcars), byrow=TRUE)
+#' stdErr <- matrix(sapply(mtcars, sd)/sqrt(nrow(mtcars)),
+#'                 ncol=ncol(mtcars), nrow=nrow(mtcars), byrow=TRUE)
+#' tstats <- diffMean/stdErr
+#' pvals <- pt(as.matrix(tstats), nrow(mtcars)-2, lower=FALSE)
+#' op <- par(oma=c(4,0,0,20))
+#' sel <- sigHeatmap(x, pvals=pvals, cutoff=alpha, showOnly="b",
+#'                   plotTitle="mtcars Example Heatmap", sigChar="*", notecol='black',
+#'                   notecex=2, Colv=T, Rowv=T, dendrogram="row", trace="none")
+#' par(op)
+#' ## Which cars weren't selected
+#' rownames(mtcars)[setdiff(1:nrow(mtcars), sel)]
+
+#function for collapsing a dataset to geneSymbols and all that goes with it
+#takes the exprsVals matrix we're collapsing and either the platform of the set
+#or a named vector containing the gene symbols. 
+#Overlapping gene symbols are combined using the operation given in "oper"
+#returns the collapsed exprsVals
+# if prefer is "up", when multiple deProbes match the same gene, the upregulated
+# will be chosen.  Default is none and the probe with the oper will be chosen
+# if returnProbes is TRUE, a list of the collapsed expression matrix and the probes
+# is returned
+# if singleProbeset is TRUE, then the operation applies to the average of each probeset
+# deProbes is a list with named vectors "up" and "down"
+collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max,
+                            prefer=c("none", "up", "down"), singleProbeset=FALSE, returnProbes=FALSE,
+                            deProbes=NULL)
+{
+  if(is.null(platform) && is.null(mapVector)){
+    stop("Need to include either a platform or a named vector to map to")
+  }                              
+  if(!is.null(platform)){
+    #find the right columns
+    if("Gene.Symbol" %in% names(platform)){ mapVector = as.vector(platform$Gene.Symbol)}
+    else if("GeneSymbol" %in% names(platform)){ mapVector = as.vector(platform$GeneSymbol)}
+    else if("SYMBOL" %in% names(platform)){ mapVector = as.vector(platform$SYMBOL)} 
+    else if("GENE_SYMBOL" %in% names(platform)){ mapVector = as.vector(platform$GENE_SYMBOL)} 
+    else if("Symbol" %in% names(platform)){ mapVector = as.vector(platform$Symbol)}
+    else{stop("Gene Symbol column cannot be found in the platform")}
+    names(mapVector) = toupper(as.vector(platform$ID))             ##wonderful! no consistency even for upper/lower case probes
+  }else if(!is.null(mapVector)){names(mapVector) = toupper(names(mapVector))}
+  if(class(mapVector)=="list"){mapVector=unlist(mapVector)}
+  prefer <- match.arg(prefer)
+  
+  probeSets = toupper(rownames(exprsVals))
+  geneSymbols = mapVector[probeSets]
+  allDEprobes <- Reduce(union, deProbes)
+  
+  #remove probes with NO gene symbol
+  probeSets_NoGeneSymbol = ((geneSymbols == "") | is.na(geneSymbols))
+  exprsVals = as.matrix(exprsVals[ !probeSets_NoGeneSymbol,])
+  probeSets = probeSets[!probeSets_NoGeneSymbol]
+  geneSymbols = geneSymbols[!probeSets_NoGeneSymbol]
+  
+  #remove rows that contain NAs
+  missingData = apply(is.na(exprsVals), 1,any)
+  exprsVals = as.matrix(exprsVals[ !missingData,])
+  probeSets = probeSets[!missingData]
+  geneSymbols = geneSymbols[!missingData]
+
+  #combine all the probes for genes with more than one name using the following function
+  geneSymbols_Multiple =  names(which(table(geneSymbols)>1))
+  maxOfProbes = matrix(NA,nrow=length(geneSymbols_Multiple),ncol=dim(exprsVals)[2],
+    dimnames=list(geneSymbols_Multiple,colnames(exprsVals)))
+  maxProbeNames <- rep(NA, length(geneSymbols_Multiple))
+  names(maxProbeNames) <- geneSymbols_Multiple
+  for( g in geneSymbols_Multiple){
+    probes <- as.matrix(exprsVals[ which( geneSymbols %in% g ), ])
+    ## If any probes are DE, choose the maximum from among those ones
+    matchingProbes <- names(mapVector[mapVector == g])
+    if(!is.null(deProbes)) {
+      matchingProbes.de <- matchingProbes[which(matchingProbes %in% allDEprobes)]
+      if(length(matchingProbes.de) > 0) {
+        probes <- matrix(exprsVals[ (geneSymbols %in% g) &
+                                   (probeSets %in% matchingProbes.de), ],
+                         nrow=length(matchingProbes.de), ncol=dim(exprsVals)[2])
+        rownames(probes) <- rownames(exprsVals)[geneSymbols %in% g & probeSets %in% matchingProbes.de]
+        ## Filter by prefer argument
+        filter <- switch(prefer,
+                         none = 1:length(matchingProbes.de), # no filter
+                         up = which(matchingProbes.de %in% deProbes[["up"]]),
+                         down = which(matchingProbes.de %in% deProbes[["up"]]))
+        if(length(filter) > 0)
+          probes <- probes[filter, , drop=F]
+      }
+    }
+#    print(probes)
+#    print(g)
+#    print(matchingProbes)
+#    print(matchingProbes.de)
+    if (! singleProbeset ) {
+      maxOfProbes[g,] = apply(probes,2,oper)
+    } else { # only choose a single probeset for each duplicate
+      probeAverages = rowSums(probes)/ncol(probes)
+#      print(head(probeAverages))
+      whichMax = which(probeAverages == oper(probeAverages))
+      maxOfProbes[g,] = probes[whichMax,]
+      maxProbeNames[g] <- rownames(probes)[whichMax]
+    }
+#    Pause()
+  }
+
+  geneSymbols_Multiple = which( geneSymbols %in% geneSymbols_Multiple )
+  geneSymbols = geneSymbols[-geneSymbols_Multiple]
+
+  exprsVals = as.matrix(exprsVals[ -geneSymbols_Multiple,])
+  probeSets = c(rownames(exprsVals), maxProbeNames)
+  names(probeSets) <- c(geneSymbols, names(maxProbeNames))
+  rownames(exprsVals) = geneSymbols
+
+  ## Reorder according to rownames (gene symbols) to be alphabetical
+  exprMat <- rbind(exprsVals, maxOfProbes)
+  reord <- order(rownames(exprMat))
+  probeSets <- probeSets[reord]
+  exprMat <- exprMat[reord,]
+
+  if(returnProbes) # Return probes and the expression matrix
+    return(list(exprsVals=exprMat, probes=probeSets))
+  else # return only the expression matrix
+    return(exprMat)
+}
