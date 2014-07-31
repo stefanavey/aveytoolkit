@@ -16,11 +16,10 @@ The following R packages are required for proper installation
 
      library(devtools)
      source(url("https://gist.githubusercontent.com/mages/2aed2a053e355e3bfe7c/raw/getLoginDetails.R"))
-     ## A box should come up, just click ok without entering anything
-     credentials <- getLoginDetails # now enter username and password
+     ## A box should come up, just click ok without entering anything ##
+     credentials <- getLoginDetails() # now enter username and password #
      install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
-                       auth_user=credentials["loginID"], password=credentials["password"], 
-		       ref="default")
+                       auth_user=credentials["loginID"], password=credentials["password"], ref="default")
 
 ### Who do I talk to? ###
 
