@@ -8,7 +8,7 @@
 #' @author Ricardo Oliveros-Ramos
 #' @keywords aveytoolkit
 #' @seealso \code{\link{rgb}}, \code{\link{col2rgb}}
-#' @references http://stackoverflow.com/questions/8047668/transparent-equivalent-of-given-color 
+#' @references \url{http://stackoverflow.com/questions/8047668/transparent-equivalent-of-given-color}
 #' @export
 #' @examples
 #' makeTransparent("red", "blue")

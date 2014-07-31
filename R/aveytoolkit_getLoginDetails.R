@@ -8,7 +8,7 @@
 #' @details This function displays a window for a user to enter a loginID and password without showing the password.
 #' @keywords aveytoolkit
 #' @seealso \code{\link{tcltk}}
-#' @references http://www.r-bloggers.com/simple-user-interface-in-r-to-get-login-details/ http://r.789695.n4.nabble.com/tkentry-that-exits-after-RETURN-tt854721.html#none
+#' @references \url{http://www.r-bloggers.com/simple-user-interface-in-r-to-get-login-details/} \url{http://r.789695.n4.nabble.com/tkentry-that-exits-after-RETURN-tt854721.html#none}
 #' @export
 #' @examples
 #' credentials <- getLoginDetails()

@@ -8,7 +8,7 @@
 #' @return a data frame of the converted list.
 #' @keywords aveytoolkit
 #' @seealso \code{\link{gsub}}
-#' @references http://stackoverflow.com/questions/15753091/convert-mixed-length-named-list-to-data-frame
+#' @references \url{http://stackoverflow.com/questions/15753091/convert-mixed-length-named-list-to-data-frame}
 #' @author Josh O'Brien
 #' @export
 #' @examples

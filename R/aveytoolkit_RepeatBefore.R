@@ -8,7 +8,7 @@
 #' @details NA values will be replaced by the most recent value with a lower index.  If there is no non-NA value before the NA appears, it will remain NA.
 #' @keywords aveytoolkit
 #' @seealso \code{\link{rep}}
-#' @references  http://stackoverflow.com/questions/7735647/replacing-nas-with-latest-non-na-value
+#' @references  \url{http://stackoverflow.com/questions/7735647/replacing-nas-with-latest-non-na-value}
 #' @export
 #' @examples
 #' x = c(NA,NA,'a',NA,NA,NA,NA,NA,NA,NA,NA,'b','c','d',NA,NA,NA,NA,NA,'e')
