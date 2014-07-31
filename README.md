@@ -8,7 +8,9 @@
 
 ### Dependencies ###
 
-The following R packages are required for proper installation
+The following R packages are required for proper installation: `devtools` `ggplot2` `gplots`
+
+Install these from the R prompt by running
 
      install.packages(c("devtools", "ggplot2", "gplots"))
 
