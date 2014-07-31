@@ -10,7 +10,7 @@
 
 The following R packages are required for proper installation
 
-     install.packages(c('devtools', 'ggplot2', 'gplots'))
+     install.packages(c("devtools", "ggplot2", "gplots"))
 
 ### Installation ###
 
@@ -22,6 +22,7 @@ The secure way to install - without putting your password into plain text is des
      ## A box should come up, just click ok without entering anything 
      credentials <- getLoginDetails() 
      ## now enter username and password in the prompt
+     rm(getLoginDetails) # this will be replaced by same function in aveytoolkit
      install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
                        auth_user=credentials["loginID"], password=credentials["password"], ref="default")
 
