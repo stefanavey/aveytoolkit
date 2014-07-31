@@ -16,20 +16,22 @@ Install these from the R prompt by running
 
 ### Installation ###
 
-     library(devtools) # for install_bitbucket function
-
+#### Secure Installation ###
 The secure way to install - without putting your password into plain text is described first
 
+     library(devtools) # for install_bitbucket function
      source(url("https://gist.githubusercontent.com/mages/2aed2a053e355e3bfe7c/raw/getLoginDetails.R"))
      ## A box should come up, just click ok without entering anything 
      credentials <- getLoginDetails() 
-     ## now enter username and password in the prompt
-     rm(getLoginDetails) # this will be replaced by same function in aveytoolkit
+     ## now enter your Bitbucket username and password in the window
+     rm(getLoginDetails)
      install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
                        auth_user=credentials["loginID"], password=credentials["password"], ref="default")
 
+#### Less-secure Installation ####
 Alternatively, the less secure way is to put in the username and password directly
 
+     library(devtools) # for install_bitbucket function
      install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
                        auth_user="<user_name>", password="<password>", ref="default")
 
