@@ -6,16 +6,20 @@
 
 ## How do I get set up? ##
 
+### Dependencies ###
+
+The following R packages are required for proper installation
+
+     install.packages(c('devtools', 'ggplot2', 'gplots'))
+
 ### Installation ###
 
-To install the R package, first install devtools
-
-     install.packages('devtools')
-
-Then install the package from Bitbucket  
-
      library(devtools)
-     install_bitbucket("aveytoolkit-r-package", "spa23", auth_user="<user_name>", password="<pw>", branch="default")
+     source(url("https://bitbucket.org/spa23/aveytoolkit-r-package/raw/a273aa5668295a0c27ded078dd86dce1862c4b05/R/aveytoolkit_getLoginDetails.R"))
+     credentials <- getLoginDetails
+     install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
+                       auth_user=credentials["loginID"], password=credentials["password"], 
+		       ref="default")
 
 ### Who do I talk to? ###
 
