@@ -15,8 +15,9 @@ The following R packages are required for proper installation
 ### Installation ###
 
      library(devtools)
-     source(url("https://bitbucket.org/spa23/aveytoolkit-r-package/raw/a273aa5668295a0c27ded078dd86dce1862c4b05/R/aveytoolkit_getLoginDetails.R"))
-     credentials <- getLoginDetails
+     source(url("https://gist.githubusercontent.com/mages/2aed2a053e355e3bfe7c/raw/getLoginDetails.R"))
+     ## A box should come up, just click ok without entering anything
+     credentials <- getLoginDetails # now enter username and password
      install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
                        auth_user=credentials["loginID"], password=credentials["password"], 
 		       ref="default")
