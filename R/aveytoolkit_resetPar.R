@@ -7,7 +7,7 @@
 #' @details This function resets the graphical parameters from the par function. It flashes a new device on the screen but works to reset parameters.  Meant to be used when things get hairy and not coded in scripts
 #' @keywords aveytoolkit
 #' @seealso \code{\link{par}}
-#' @references \link{\url{http://stackoverflow.com/questions/5789982/reset-par-to-the-default-values-at-startup}}
+#' @references {\url{http://stackoverflow.com/questions/5789982/reset-par-to-the-default-values-at-startup}
 #' @export
 #' @examples
 #' par(oma=c(4,10,2,1))
