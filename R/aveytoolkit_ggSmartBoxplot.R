@@ -88,7 +88,7 @@ ggSmartBoxplot <- function(x, mat, splitBy=NA, colorBy=NA, rows, cols=NA,
     if(length(levels(colorBy)) == 2)
       f <- f + scale_fill_manual(name="", breaks=factor(colorBy), values=c("yellow", "blue"))
     ## only split if splitBy is not NA
-    if(!is.na(splitBy))
+    if(!all(is.na(splitBy)))
       f <- f + facet_grid(.~splitBy, scales="free", space="free")
     ## No legend if only 1 color is used - does not work
 #    if(length(unique(colorBy)) == 1)
