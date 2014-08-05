@@ -19,7 +19,7 @@ fishersMethod(x)
 Mike Love
 }
 \references{
-http://mikelove.wordpress.com/2012/03/12/combining-p-values-fishers-method-sum-of-p-values-binomial/
+\url{http://mikelove.wordpress.com/2012/03/12/combining-p-values-fishers-method-sum-of-p-values-binomial/}
 }
 \keyword{aveytoolkit}
 

@@ -26,7 +26,7 @@ makeTransparent("red", "blue", alpha=0.8)
 Ricardo Oliveros-Ramos
 }
 \references{
-http://stackoverflow.com/questions/8047668/transparent-equivalent-of-given-color
+\url{http://stackoverflow.com/questions/8047668/transparent-equivalent-of-given-color}
 }
 \seealso{
 \code{\link{rgb}}, \code{\link{col2rgb}}

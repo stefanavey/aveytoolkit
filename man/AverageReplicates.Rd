@@ -26,8 +26,5 @@ avgMat <- AverageReplicates(mat, numRep=2) ## average adjacent pairs of columns
 \author{
 Stefan Avey
 }
-\references{
-http://mikelove.wordpress.com/2012/03/12/combining-p-values-fishers-method-sum-of-p-values-binomial/
-}
 \keyword{aveytoolkit}
 

@@ -30,7 +30,7 @@ system.time(makeDF(ll, nms))
 Josh O'Brien
 }
 \references{
-http://stackoverflow.com/questions/15753091/convert-mixed-length-named-list-to-data-frame
+\url{http://stackoverflow.com/questions/15753091/convert-mixed-length-named-list-to-data-frame}
 }
 \seealso{
 \code{\link{gsub}}

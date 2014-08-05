@@ -26,7 +26,7 @@ show(newX)
 Ruben
 }
 \references{
-http://stackoverflow.com/questions/7735647/replacing-nas-with-latest-non-na-value
+\url{http://stackoverflow.com/questions/7735647/replacing-nas-with-latest-non-na-value}
 }
 \seealso{
 \code{\link{rep}}

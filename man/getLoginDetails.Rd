@@ -23,7 +23,7 @@ rm(credentials) # Delete credentials
 Markus Gesmann, Barry Rowlingson
 }
 \references{
-http://www.r-bloggers.com/simple-user-interface-in-r-to-get-login-details/ http://r.789695.n4.nabble.com/tkentry-that-exits-after-RETURN-tt854721.html#none
+\url{http://www.r-bloggers.com/simple-user-interface-in-r-to-get-login-details/} \url{http://r.789695.n4.nabble.com/tkentry-that-exits-after-RETURN-tt854721.html#none}
 }
 \seealso{
 \code{\link{tcltk}}
