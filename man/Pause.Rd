@@ -22,7 +22,7 @@ The Pause function uses readline to wait until a newline character (produced by 
 \examples{
 for(p in 1:10) {
   plot(-10:10, (-10:10)^p, type='b')
-  Pause(paste0('see plot of x^',p))
+  Pause(paste0('see plot of x^',p+1))
 }
 }
 \author{
