@@ -20,14 +20,36 @@ Install these from the R prompt by running
 The secure way to install - without putting your password into plain text is described first
 
      library(devtools) # for install_bitbucket function
-     source(url("https://gist.githubusercontent.com/mages/2aed2a053e355e3bfe7c/raw/getLoginDetails.R"))
-     ## A box should come up, just click ok without entering anything 
+     getLoginDetails <- function() {
+       ## Authors Markus Gesmann, Barry Rowlingson
+       ## http://www.r-bloggers.com/simple-user-interface-in-r-to-get-login-details/
+       ## Based on code by Barry Rowlingson
+       ## http://r.789695.n4.nabble.com/tkentry-that-exits-after-RETURN-tt854721.html#none
+       require(tcltk)
+       tt<-tktoplevel()
+       tkwm.title(tt,"Get login details")
+       Name <- tclVar("Login ID")
+       Password <- tclVar("Password")
+       entry.Name <-tkentry(tt,width="20",textvariable=Name)
+       entry.Password <-tkentry(tt,width="20", show="*",textvariable=Password)
+       tkgrid(tklabel(tt,text="Please enter your login details."))
+       tkgrid(entry.Name)
+       tkgrid(entry.Password)
+       OnOK <- function() { tkdestroy(tt) }
+       OK.but <-tkbutton(tt,text=" OK ",command=OnOK)
+       tkbind(entry.Password, "<Return>",OnOK)
+       tkgrid(OK.but)
+       tkfocus(tt)
+       tkwait.window(tt)
+       invisible(c(loginID=tclvalue(Name), password=tclvalue(Password)))
+     }
      credentials <- getLoginDetails() 
-     ## now enter your Bitbucket username and password in the window
+     ## enter your Bitbucket username and password in the window
      rm(getLoginDetails)
      install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
                        auth_user=credentials["loginID"], password=credentials["password"], ref="default")
-
+     rm(credentials)   # Remove loginID and password
+     
 #### Less-secure Installation ####
 Alternatively, the less secure way is to put in the username and password directly
 
