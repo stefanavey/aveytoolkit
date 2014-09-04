@@ -9,12 +9,10 @@
 #' @param grouping a vector with length equal to the number of columns of x containing a grouping of the samples (e.g. subjects, cell lines, strains).
 #' @param log2Transform when 'TRUE', log2 transformation will be applied to x before taking the FC. If 'FALSE' (default) no transformation is applied and x is ASSUMED to be already log transformed.
 #' @return a data.frame of the fold changes with one column for each fold change
-#' @details
+#' @details FoldChange takes the fold change of log2 Transformed data by subtracting columns of the x dataframe or matrix depending on the conditions passed in.
 #' @author Stefan Avey
 #' @keywords aveytoolkit
 #' @export
-#' @examples
-
 FoldChange <- function(x, condNum, condDen, conditions, grouping, log2Transform=FALSE) {
   if(length(grouping) != ncol(x)) {
     stop("grouping does not have the same number of elements as the columns (samples) of x.")
