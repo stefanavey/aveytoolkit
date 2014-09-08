@@ -23,7 +23,7 @@ FoldChange <- function(x, condNum, condDen, conditions, grouping, log2Transform=
   if( !(all(c(condNum, condDen) %in% conditions)) ) {
     stop("condNum or condDen contain values not in conditions.")
   }
-  xFC <- data.frame(matrix(nrow=nrow(x), ncol=ncol(x)))
+  xFC <- data.frame(matrix(nrow=nrow(x), ncol=ncol(x)), row.names=rownames(x))
   if(log2Transform) { x <- log2(x) }
   ccv <- 1
   for(g in unique(grouping)) {
