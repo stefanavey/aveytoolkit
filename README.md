@@ -19,7 +19,7 @@ Install these from the R prompt by running
 #### Secure Installation ###
 The secure way to install - without putting your password into plain text is described first
 
-:::R
+     :::R
      library(devtools) # for install_bitbucket function
      getLoginDetails <- function() {
        ## Authors Markus Gesmann, Barry Rowlingson
