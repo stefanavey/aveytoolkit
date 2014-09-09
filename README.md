@@ -1,9 +1,6 @@
 
-```
-#!R
 
 
-```
 # README #
 
 ### What is this repository for? ###
@@ -24,6 +21,9 @@ Install these from the R prompt by running
 
 #### Secure Installation ###
 The secure way to install - without putting your password into plain text is described first
+
+```
+#!R
 
      library(devtools) # for install_bitbucket function
      getLoginDetails <- function() {
@@ -54,8 +54,8 @@ The secure way to install - without putting your password into plain text is des
      rm(getLoginDetails)
      install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
                        auth_user=credentials["loginID"], password=credentials["password"], ref="default")
-     rm(credentials)   # Remove loginID and password
-     
+     rm(credentials)   # Remove loginID and password  
+```
 #### Less-secure Installation ####
 Alternatively, the less secure way is to put in the username and password directly
 
