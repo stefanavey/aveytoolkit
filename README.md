@@ -58,7 +58,6 @@ rm(credentials)   # Remove loginID and password
 #### Less-secure Installation ####
 Alternatively, the less secure way is to put in the username and password directly
 
-#!R
 ```
 library(devtools) # for install_bitbucket function
 install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
