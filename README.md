@@ -64,7 +64,7 @@ Alternatively, the less secure way is to put in the username and password direct
 library(devtools) # for install_bitbucket function
 install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
                   auth_user="<user_name>", password="<password>", ref="default")
-
+```
 ### Who do I talk to? ###
 
 * Stefan Avey <stefan.avey@yale.edu>
