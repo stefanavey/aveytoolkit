@@ -1,6 +1,3 @@
-
-
-
 # README #
 
 ### What is this repository for? ###
@@ -24,8 +21,7 @@ The secure way to install - without putting your password into plain text is des
 
 ```
 #!R
-
-     library(devtools) # for install_bitbucket function
+library(devtools) # for install_bitbucket function
      getLoginDetails <- function() {
        ## Authors Markus Gesmann, Barry Rowlingson
        ## http://www.r-bloggers.com/simple-user-interface-in-r-to-get-login-details/
