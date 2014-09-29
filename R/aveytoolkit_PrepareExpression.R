@@ -1,4 +1,4 @@
-#' PrepareExpression.R
+#' PrepareExpression
 #'
 #' Takes in an expression matrix or data frame and prepares it for further analysis
 #'
