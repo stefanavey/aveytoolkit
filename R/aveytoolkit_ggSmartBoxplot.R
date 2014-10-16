@@ -4,7 +4,8 @@
 #'
 #' @param x the variable to group by for boxplots
 #' @param mat data.frame or matrix of values to plot with samples in columns
-#' @param splitBy a factor used to split the data into separate plots
+#' @param splitRowBy a factor used to split the data by row in facet_grid
+#' @param splitColBy a factor used to split the data by col in facet_grid
 #' @param colorBy a factor used for coloring
 #' @param rows row names or row indices of the items to be plotted
 #' @param cols substring to search for with "grep" in column names to be plotted
@@ -25,7 +26,7 @@
 #'                mat=t(OrchardSprays[,1]),
 #'               rows=1, whichCols=1:ncol(t(OrchardSprays)),
 #'               colorBy=factor(OrchardSprays$rowpos+OrchardSprays$colpos > 9),
-#'               splitBy=NA, xlab="Treatment")
+#'               xlab="Treatment")
 #'
 #' ## NOT RUN:
 #' cellType <- "PBMC"
@@ -39,10 +40,10 @@
 #'                mat=exprFClist[[cellType]], ylim=c(-1,1),
 #'                rows=geneSub, whichCols=which(subset), 
 #'                colorBy=targetFClist[[cellType]][subset,"Response"],
-#'                splitBy=targetFClist[[cellType]][subset,"Age"],
+#'                splitRowBy=targetFClist[[cellType]][subset,"Age"],
 #'                xlab="Days (Post Vaccination)",
 #'                fileName=NA)
-ggSmartBoxplot <- function(x, mat, splitBy=NA, colorBy=NA, rows, cols=NA,
+ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NA, rows, cols=NA,
                            whichCols=NA, sep='.', fileName=NA, ...)  {
 #  require(ggplot2)
   if(is.character(fileName))
@@ -62,8 +63,8 @@ ggSmartBoxplot <- function(x, mat, splitBy=NA, colorBy=NA, rows, cols=NA,
     x2 <- as.numeric(as.factor(x)) +
       0.25*seq(from=-1, to=1,
                length.out=length(levels(factor(colorBy))))[as.numeric(factor(colorBy))]
-    dat <- data.frame(x=factor(x), x2=x2, vals=unlist(submat), splitBy=splitBy,
-                      colorBy=factor(colorBy))
+    dat <- data.frame(x = factor(x), x2 = x2, vals = unlist(submat), 
+                      splitColBy = splitColBy, splitRowBy = splitRowBy, colorBy = factor(colorBy))
 #      print(dat)
     ## Assign rownames as r or the rownames at row number r
     if(is.numeric(r))
@@ -87,9 +88,17 @@ ggSmartBoxplot <- function(x, mat, splitBy=NA, colorBy=NA, rows, cols=NA,
     ## Default colors for only 2 classes are yellow and blue
     if(length(levels(colorBy)) == 2)
       f <- f + scale_fill_manual(name="", breaks=factor(colorBy), values=c("yellow", "blue"))
-    ## only split if splitBy is not NA
-    if(!all(is.na(splitBy)))
-      f <- f + facet_grid(.~splitBy, scales="free", space="free")
+    ## Determine how to split based on values of splitRowBy and splitColBy
+    if (!all(is.na(splitColBy)) && all(is.na(splitRowBy))) {
+      f <- f + facet_grid(. ~ splitColBy, scales = "free", 
+                          space = "free")
+    } else if (!all(is.na(splitRowBy)) && all(is.na(splitColBy))) {
+      f <- f + facet_grid(splitRowBy ~ ., scales = "free", 
+                          space = "free")
+    } else if (!all(is.na(splitRowBy)) && !all(is.na(splitColBy))) {
+      f <- f + facet_grid(splitRowBy ~ splitColBy, scales = "free", 
+                          space = "free")
+    }
     ## No legend if only 1 color is used - does not work
 #    if(length(unique(colorBy)) == 1)
 #      f <- f + guides(color=FALSE)

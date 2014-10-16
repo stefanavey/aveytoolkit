@@ -3,15 +3,17 @@
 \alias{ggSmartBoxplot}
 \title{ggSmartBoxplot}
 \usage{
-ggSmartBoxplot(x, mat, splitBy = NA, colorBy = NA, rows, cols = NA,
-  whichCols = NA, sep = ".", fileName = NA, ...)
+ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NA,
+  rows, cols = NA, whichCols = NA, sep = ".", fileName = NA, ...)
 }
 \arguments{
 \item{x}{the variable to group by for boxplots}
 
 \item{mat}{data.frame or matrix of values to plot with samples in columns}
 
-\item{splitBy}{a factor used to split the data into separate plots}
+\item{splitRowBy}{a factor used to split the data by row in facet_grid}
+
+\item{splitColBy}{a factor used to split the data by col in facet_grid}
 
 \item{colorBy}{a factor used for coloring}
 
@@ -37,7 +39,7 @@ ggSmartBoxplot(x=OrchardSprays$treatment,
                mat=t(OrchardSprays[,1]),
               rows=1, whichCols=1:ncol(t(OrchardSprays)),
               colorBy=factor(OrchardSprays$rowpos+OrchardSprays$colpos > 9),
-              splitBy=NA, xlab="Treatment")
+              xlab="Treatment")
 
 ## NOT RUN:
 cellType <- "PBMC"
@@ -51,7 +53,7 @@ ggSmartBoxplot(x=targetFClist[[cellType]][subset, "Time"],
                mat=exprFClist[[cellType]], ylim=c(-1,1),
                rows=geneSub, whichCols=which(subset),
                colorBy=targetFClist[[cellType]][subset,"Response"],
-               splitBy=targetFClist[[cellType]][subset,"Age"],
+               splitRowBy=targetFClist[[cellType]][subset,"Age"],
                xlab="Days (Post Vaccination)",
                fileName=NA)
 }

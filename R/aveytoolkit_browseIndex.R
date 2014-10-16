@@ -7,7 +7,6 @@
 #' @author Stefan Avey
 #' @details Only works for a single package. Could improve to list an HTML page with multiple packages that you could then choose from.  Not currently implemented.  Borrows the conecpts from utils::browseVignettes
 #' @keywords aveytoolkit
-#' @seealso 
 #' @export
 #' @examples
 #' browseIndex("utils")
