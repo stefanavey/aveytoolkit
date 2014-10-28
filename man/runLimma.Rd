@@ -28,6 +28,9 @@ runLimma(eset, labels, contrasts, covariates = NULL,
 
 \item{fitOnly}{If true, will return fit2, rather than the matrix of significant genes. Default is FALSE.}
 }
+\value{
+depends on \code{fitOnly}
+}
 \description{
 This function performs a basic LIMMA analysis on the given expression set
 }

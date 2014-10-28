@@ -3,8 +3,9 @@
 \alias{ggSmartBoxplot}
 \title{ggSmartBoxplot}
 \usage{
-ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NA,
-  rows, cols = NA, whichCols = NA, sep = ".", fileName = NA, ...)
+ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
+  rows, cols = NA, whichCols = NA, sep = ".", outlier.shape = 17,
+  outlier.color = NULL, fileName = NA, ...)
 }
 \arguments{
 \item{x}{the variable to group by for boxplots}
@@ -15,7 +16,7 @@ ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NA,
 
 \item{splitColBy}{a factor used to split the data by col in facet_grid}
 
-\item{colorBy}{a factor used for coloring}
+\item{colorBy}{a factor used for coloring. No coloring will be done if \code{NULL} (default)}
 
 \item{rows}{row names or row indices of the items to be plotted}
 
@@ -25,9 +26,18 @@ ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NA,
 
 \item{sep}{a separator used in searching for cols in the column names}
 
-\item{filename}{the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.}
+\item{outlier.shape}{shape of outliers (default is 17, filled triangle)}
+
+\item{outlier.color}{color of outliers (default is NULL)}
+
+\item{fileName}{}
 
 \item{...}{other arguments that are passed to qplot}
+
+\item{filename}{the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.}
+}
+\value{
+invisibly returns a named list of the data frame(s) used for plotting the boxplot(s).  The names come from converting the rows argument to a character vector.
 }
 \description{
 Boxplot wrapper for ggplot

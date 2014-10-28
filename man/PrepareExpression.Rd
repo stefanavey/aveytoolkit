@@ -13,9 +13,11 @@ PrepareExpression(eset, target, returnProbes = TRUE, labelColumn = "Label",
 
 \item{returnProbes}{whether probe mapping should be returned along with expression values in a list. This will only be returned correctly if there is a column of eset matching SYMBOL in any case.}
 
+\item{labelColumn}{the column name in the target file to use for matching the column names of eset. Default is "Label"}
+
 \item{select}{the column names of target to select and merge as the new column names of eset}
 
-\item{labelColumn}{the column name in the target file to use for matching the column names of eset. Default is "Label"}
+\item{collapse}{}
 }
 \value{
 if returnProbes is FALSE: a list of the prepared expression data frame (exprDat) and the (potentially modified) target data frame (target) .  if returnProbes is TRUE (default): a list of three elements including the two above and probeMap (a vector mapping from gene symbols to probe names).
@@ -27,6 +29,7 @@ Takes in an expression matrix or data frame and prepares it for further analysis
 Wrote this to automate the few lines I always perform to "prepare" an expression set for further processing.  I always want to remove the symbols column, rename the column names based on the target file, and (usually) change the rownames to be gene symbols.  This function takes in the matrix format that I use to store processed expression files (in a pacakge or file).
 }
 \examples{
+## Creating fake expression matrix
 dat <- matrix(rnorm(1000, mean=8, sd=1), nrow=100, ncol=10)
 colnames(dat) <- sample(letters[1:10], size=10)
 fakeGenes <- as.vector(outer(LETTERS[1:26], LETTERS[1:26], paste0))
