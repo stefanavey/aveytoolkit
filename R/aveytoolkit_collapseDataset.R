@@ -96,9 +96,12 @@ collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max
   }
 
   geneSymbols_Multiple = which( geneSymbols %in% geneSymbols_Multiple )
-  geneSymbols = geneSymbols[-geneSymbols_Multiple]
+  ## if any gene symbols have multiples, remove these because they will be in maxOfProbes
+  if(length(geneSymbols_Multiple) > 0) {
+    geneSymbols <- geneSymbols[-geneSymbols_Multiple]
+    exprsVals <- as.matrix(exprsVals[-geneSymbols_Multiple, ])
+  }
 
-  exprsVals = as.matrix(exprsVals[ -geneSymbols_Multiple,])
   probeSets = c(rownames(exprsVals), maxProbeNames)
   names(probeSets) <- c(geneSymbols, names(maxProbeNames))
   rownames(exprsVals) = geneSymbols
