@@ -50,7 +50,7 @@ invisible(c(loginID=tclvalue(Name), password=tclvalue(Password)))
 credentials <- getLoginDetails()
 ## enter your Bitbucket username and password in the window
 rm(getLoginDetails)
-install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23",
+install_bitbucket(repo = "spa23/aveytoolkit-r-package", 
                        auth_user=credentials["loginID"], password=credentials["password"], ref="default")
 rm(credentials)   # Remove loginID and password
 ```
