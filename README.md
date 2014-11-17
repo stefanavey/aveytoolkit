@@ -61,7 +61,7 @@ Alternatively, the less secure way is to put in the username and password direct
 ```
 #!R
 library(devtools) # for install_bitbucket function
-install_bitbucket(repo = "aveytoolkit-r-package", username = "spa23", 
+install_bitbucket(repo = "spa23/aveytoolkit-r-package", 
                   auth_user="<user_name>", password="<password>", ref="default")
 ```
 
