@@ -84,7 +84,8 @@ sigHeatmap <- function(hm, pvals, pvalDisplayName="P-value", cutoff=0.05,
 #  subset2 <- apply(cn, 1, function(row) any(row == sigChar))
   ## hrd is the row dendrogram OR the value passed into the function
   if(Rowv) {
-    hrd <- as.dendrogram(hclust(as.dist(1-cor(t(hm[subset,]), method="spearman")), method="ward.D"))
+    hrd <- as.dendrogram(stats::hclust(as.dist(1-cor(t(hm[subset,]), method="spearman")),
+                                       method="ward.D"))
   } else
     hrd <- Rowv
   if(main != "")
@@ -95,5 +96,4 @@ sigHeatmap <- function(hm, pvals, pvalDisplayName="P-value", cutoff=0.05,
 
   return(invisible(which(subset))) # return subset
 }
-
 

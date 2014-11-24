@@ -53,17 +53,19 @@ collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max
   probeSets = probeSets[!missingData]
   geneSymbols = geneSymbols[!missingData]
 
-  #combine all the probes for genes with more than one name using the following function
+  ## browser() ## debugging
+  
+  ## combine all the probes for genes with more than one name using the following function
   geneSymbols_Multiple =  names(which(table(geneSymbols)>1))
   maxOfProbes = matrix(NA,nrow=length(geneSymbols_Multiple),ncol=dim(exprsVals)[2],
     dimnames=list(geneSymbols_Multiple,colnames(exprsVals)))
   maxProbeNames <- rep(NA, length(geneSymbols_Multiple))
   names(maxProbeNames) <- geneSymbols_Multiple
-  for( g in geneSymbols_Multiple){
+  for(g in geneSymbols_Multiple){
     probes <- as.matrix(exprsVals[ which( geneSymbols %in% g ), ])
-    ## If any probes are DE, choose the maximum from among those ones
-    matchingProbes <- names(mapVector[mapVector == g])
     if(!is.null(deProbes)) {
+      ## If any probes are DE, choose the maximum from among those ones
+      matchingProbes <- names(mapVector[mapVector == g])
       matchingProbes.de <- matchingProbes[which(matchingProbes %in% allDEprobes)]
       if(length(matchingProbes.de) > 0) {
         probes <- matrix(exprsVals[ (geneSymbols %in% g) &
@@ -78,11 +80,11 @@ collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max
         if(length(filter) > 0)
           probes <- probes[filter, , drop=F]
       }
+      ## print(matchingProbes)
+      ## print(matchingProbes.de)
     }
-#    print(probes)
-#    print(g)
-#    print(matchingProbes)
-#    print(matchingProbes.de)
+    ## print(probes)
+    ## print(g)
     if (! singleProbeset ) {
       maxOfProbes[g,] = apply(probes,2,oper)
     } else { # only choose a single probeset for each duplicate
