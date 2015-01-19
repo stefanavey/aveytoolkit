@@ -3,12 +3,15 @@
 \alias{browseIndex}
 \title{browseIndex}
 \usage{
-browseIndex(package, lib.loc = NULL)
+browseIndex(package = NULL, lib.loc = NULL)
 }
 \arguments{
-\item{package}{a string with the name of package to use}
+\item{package}{a string with the name of package to use. If no name is supplied, the most recently loaded package is used.}
 
 \item{lib.loc}{a string of the directory name of the R library, or ‘NULL’.  The default value of ‘NULL’ corresponds to all libraries currently known.}
+}
+\value{
+invisibly, the URL passed to browseURL (i.e. "file:" + <index_filename>)
 }
 \description{
 Simple function to open HTML page of index in the default browser

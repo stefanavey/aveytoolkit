@@ -3,7 +3,7 @@
 \alias{makeTransparent}
 \title{makeTransparent}
 \usage{
-makeTransparent(..., alpha = 0.5)
+makeTransparent(alpha = 0.5, ...)
 }
 \arguments{
 \item{...}{vector or list of colors}

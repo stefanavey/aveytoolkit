@@ -3,7 +3,7 @@
 \alias{runLimma}
 \title{runLimma}
 \usage{
-runLimma(eset, labels, contrasts, covariates = NULL,
+runLimma(eset, labels, contrasts, block = NULL, covariates = NULL,
   filterReplicateGenes = TRUE, min.fold.change = 1, min.intensity = 4,
   p.cutoff = 0.05, fitOnly = FALSE)
 }
@@ -14,7 +14,7 @@ runLimma(eset, labels, contrasts, covariates = NULL,
 
 \item{contrasts}{Vector of contrasts to make}
 
-\item{block}{Vector of factors specifying a blocking variable (i.e. for paired samples or for ). NOT IMPLEMENTED!}
+\item{block}{vector or factor specifying a blocking variable on the arrays. Has length equal to the number of arrays. Must be ‘NULL’ if ‘ndups>2’. (Not extensively tested, use with caution)}
 
 \item{covariates}{data frame of covariates (of same length as labels) to include in the model. Use this if there are paired samples, etc.}
 
@@ -32,10 +32,10 @@ runLimma(eset, labels, contrasts, covariates = NULL,
 depends on \code{fitOnly}
 }
 \description{
-This function performs a basic LIMMA analysis on the given expression set
+A wrapper around limma functions to perform a basic analysis on the given expression matrix
 }
 \details{
-Generally, an expression matrix is made up of rows of genes (or any other features) and columns of samples. The matrix has data for multiple classes (which are denoted with the 'labels' parameter) and the classes are compared using the vector of contrasts.
+Generally, an expression matrix is made up of rows of genes (or any other features) and columns of samples. The matrix has data for multiple classes (which are denoted with the 'labels' parameter) and the classes are compared using the vector of contrasts. Block can be used for biological (or technical) replicates or for separate subjects (in which case it will determinte the inter-subject correlation).  See \code{?duplicateCorrelation} for more information.
 }
 \examples{
 ## Example:
@@ -50,10 +50,10 @@ Generally, an expression matrix is made up of rows of genes (or any other featur
 ## If you want information on p-values and fold changes, set "fitOnly=T", and you can access
 ## the fit object to get the information.
 ##
-## For other comparisons, you can look at the LIMMA user guide.
+## For other comparisons, you can look at the LIMMA user guide: limmaUsersGuide()
 }
 \author{
-Christopher Bolen
+Christopher Bolen, Stefan Avey
 }
 \seealso{
 \code{\link{limma}}
