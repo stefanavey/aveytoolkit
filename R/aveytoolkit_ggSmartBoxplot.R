@@ -14,6 +14,7 @@
 ##' @param outlier.shape shape of outliers (default is 17, filled triangle)
 ##' @param outlier.color color of outliers (default is NULL)
 ##' @param fileName 
+##' @param plot logical specifying whether or not to plot the plot(s). Default is TRUE.
 ##' @param ... other arguments that are passed to qplot
 ##' @param filename the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.
 ##' @return invisibly returns a named list of the data frame(s) used for plotting the boxplot(s).  The names come from converting the rows argument to a character vector.
@@ -49,7 +50,7 @@
 ##'                fileName=NA)
 ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, rows, cols=NA,
                            whichCols=NA, sep='.', outlier.shape=17, outlier.color=NULL,
-                           fileName=NA, ...)  {
+                           fileName=NA, plot=TRUE, ...)  {
 #  require(ggplot2)
   if(is.character(fileName))
     pdf(fileName)
@@ -71,11 +72,11 @@ ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, r
         0.25*seq(from=-1, to=1,
                  length.out=length(levels(factor(colorBy))))[as.numeric(factor(colorBy))]
     }
-    dat <- data.frame(x = factor(x), x2 = x2, vals = unlist(submat), 
+    dat <- data.frame(x = factor(x), x2 = x2, vals = unlist(submat),
                       splitColBy = splitColBy, splitRowBy = splitRowBy)
     if(!is.null(colorBy)) {
       dat$colorBy <- factor(colorBy)
-      cbLoop <- unique(dat$colorBy)
+      cbLoop <- levels(dat$colorBy)
     } else {
       cbLoop <- NA
     }
@@ -148,7 +149,9 @@ ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, r
     ## if(length(unique(colorBy)) == 1) {
     ##   f <- f + guides(color=FALSE)
     ## }
-    plot(f)
+    if(plot) {
+      plot(f)
+    }
     lcv <- lcv + 1
   }
   if(is.character(fileName))
