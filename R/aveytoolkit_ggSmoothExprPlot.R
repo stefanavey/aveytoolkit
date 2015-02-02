@@ -1,0 +1,154 @@
+##' ggSmoothExprPlot
+##'
+##' Wrapper around ggplot to transform data and plot profiles (e.g. expression or activity) over time
+##'
+##' @param x the numeric x-axis variable for the plot (usually time)
+##' @param mat data.frame or matrix of values to plot with samples in columns
+##' @param splitRowBy a factor used to split the data by row in facet_grid
+##' @param splitColBy a factor used to split the data by col in facet_grid
+##' @param colorBy a factor used for coloring. No coloring will be done if \code{NULL} (default)
+##' @param rows row names or row indices of the items to be plotted
+##' @param cols substring to search for with "grep" in column names to be plotted
+##' @param whichCols the column indices or full column names
+##' @param sep a separator used in searching for cols in the column names
+##' @param outlier.shape shape of outliers (default is 17, filled triangle)
+##' @param outlier.color color of outliers (default is NULL)
+##' @param fileName 
+##' @param plot logical specifying whether or not to plot the plot(s). Default is TRUE.
+##' @param filename the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.
+##' @return invisibly returns a named list of the data frame(s) used for plotting the boxplot(s).  The names come from converting the rows argument to a character vector.
+##' @import ggplot2
+##' @author Stefan Avey
+##' @keywords aveytoolkit
+##' @seealso \code{\link{ggplot2}}, \code{\link{qplot}}
+##' @export
+##' @examples
+##' data(OrchardSprays)
+##' ## Example of functionality
+##' ggSmartBoxplot(x=OrchardSprays$treatment,
+##'                mat=t(OrchardSprays[,1]),
+##'               rows=1, whichCols=1:ncol(t(OrchardSprays)),
+##'               colorBy=factor(OrchardSprays$rowpos+OrchardSprays$colpos > 9),
+##'               xlab="Treatment")
+##'
+##' ## NOT RUN:
+##' cellType <- "PBMC"
+##' geneSub <- grep("HLA-A29.1", rownames(expr))
+##' age <- "Young"
+##' ages <- c("Young", "Old")
+##' responses <- c("NR", "R")
+##' subset <- targetFClist[[cellType]]$Age %in% ages & 
+##'   targetFClist[[cellType]]$Response %in% responses
+##' ggSmartBoxplot(x=targetFClist[[cellType]][subset, "Time"],
+##'                mat=exprFClist[[cellType]], ylim=c(-1,1),
+##'                rows=geneSub, whichCols=which(subset), 
+##'                colorBy=targetFClist[[cellType]][subset,"Response"],
+##'                splitRowBy=targetFClist[[cellType]][subset,"Age"],
+##'                xlab="Days (Post Vaccination)",
+##'                fileName=NA)
+ggSmoothExprPlot <- function(x, mat, rows, splitRowBy=NA, splitColBy=NA,
+                             colorBy=NULL, cols=NA, whichCols=NA, sep='.',
+                             respType="Response", ggtitle=TRUE,
+                             xlab="Time (Post-Vaccination)", ylab="Expression", 
+                             colors=c("#1B9E77", "#D95F02", "#7570B3"),
+                             space="fixed", scales="free_y",
+                             fileName=NA, plot=TRUE)  {
+  if(is.character(fileName))
+    pdf(fileName)
+  if(!is.numeric(x)) {
+    stop("'x' must be numeric.")
+  }
+  datList <- vector(mode="list", length=length(rows))
+  names(datList) <- as.character(rows)
+  lcv <- 1
+  for(r in rows) {
+    if(is.na(cols) && !is.na(whichCols)) {
+      submat <- mat[r,whichCols]
+      ## Find the common string separated  sep in the column names
+    } else if (is.na(whichCols) && !is.na(cols)) {
+      submat <- mat[r,grep(paste0(sep, cols, sep), colnames(mat), fixed=T)]
+    } else
+      stop("Must specify columns in cols or whichCols argument")
+    dat <- data.frame(x = as.numeric(x), vals = unlist(submat),
+                      splitColBy = splitColBy, splitRowBy = splitRowBy)
+    if(!is.null(colorBy)) {
+      dat$colorBy <- factor(colorBy)
+      cbLoop <- levels(dat$colorBy)
+    } else {
+      cbLoop <- NA
+    }
+    ## print(dat)
+    ## Assign rownames as r or the rownames at row number r
+    if(is.numeric(r)) {
+      rowName <- rownames(mat)[r]
+    } else {
+      rowName <- r
+    }
+    ## Determine the outliers in each of the subsets
+    dat$is.outlier <- rep(FALSE, nrow(dat))
+    for(ex in unique(x)) {
+      xTmp <- (dat$x == ex)
+      for(sc in unique(dat$splitColBy)) {
+        if(is.na(sc)) {scTmp <- rep(TRUE, nrow(dat))} else {scTmp <- dat$splitColBy == sc}
+        for(sr in unique(dat$splitRowBy)) {      
+          if(is.na(sr)) {srTmp <- rep(TRUE, nrow(dat))} else {srTmp <- dat$splitRowBy == sr}
+          for(cb in cbLoop) {
+            if(is.na(cb)) {cbTmp <- rep(TRUE, nrow(dat))} else {cbTmp <- dat$colorBy == cb}
+            sel <- (scTmp) & (srTmp) & (cbTmp) & (xTmp)
+            y <- dat[sel,"vals"]
+            lowerq = quantile(y)[2] # 25%
+            upperq = quantile(y)[4] # 75%
+            iqr = upperq - lowerq   # Or use IQR(data)
+            default.thresh.upper = (iqr * 1.5) + upperq
+            default.thresh.lower = lowerq - (iqr * 1.5)
+            ind <- which( (y < default.thresh.lower) | (y > default.thresh.upper) )
+            if(length(ind) > 0) {
+              dat$is.outlier[which(sel)[ind]] <- TRUE
+            }
+          }
+        }
+      }
+    }
+    datList[[lcv]] <- dat
+    ## print(dat)
+    f <- ggplot(data=dat) +
+      stat_smooth(alpha=0.1, size=1.5, aes(x=x, y=vals, fill=colorBy, color=colorBy),
+                  method="lm", formula = y ~ ns(x,3)) +
+                    geom_jitter(data=dat, aes(x=x, y=vals, color=colorBy),
+                                position=position_jitter(width=0.2))
+    f <- f + 
+        scale_fill_manual(name=respType, breaks = levels(dat$colorBy), values = colors) +
+          scale_color_manual(name=respType, breaks = levels(dat$colorBy), values = colors) +
+            xlab(xlab) + 
+              ylab(ylab) +
+                theme_bw()
+    if(ggtitle) {
+      f <- f + ggtitle(r)
+    }
+    ## theme(plot.margin=unit(c(5, 3, 5, 10), "mm"),
+    ##       text=element_text(size=16),
+    ##       axis.title.x = element_text(vjust=-.75),
+    ##       axis.title.y = element_text(vjust=1.00))
+    ## Determine how to split based on values of splitRowBy and splitColBy
+    if (!all(is.na(splitColBy)) && all(is.na(splitRowBy))) {
+      f <- f + facet_grid(. ~ splitColBy, scales = scales, space = space)
+    } else if (!all(is.na(splitRowBy)) && all(is.na(splitColBy))) {
+      f <- f + facet_grid(splitRowBy ~ ., scales = scales, space = space)
+    } else if (!all(is.na(splitRowBy)) && !all(is.na(splitColBy))) {
+      f <- f + facet_grid(splitRowBy ~ splitColBy, scales = scales, space = space)
+    }
+    ## No legend if only 1 color is used - does not work
+    ## if(length(unique(colorBy)) == 1) {
+    ##   f <- f + guides(color=FALSE)
+    ## }
+    if(plot) {
+      plot(f)
+    }
+    lcv <- lcv + 1
+  }
+  if(is.character(fileName))
+    dev.off()
+  return(invisible(datList))
+}
+
+
