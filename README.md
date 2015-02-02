@@ -1,6 +1,6 @@
 # README #
 
-### What is this repository for? ###
+## What is this repository for? ##
 
 * This repository holds the aveytoolkit package I've created for working with the data
 
@@ -65,6 +65,9 @@ install_bitbucket(repo="aveytoolkit-r-package", username="spa23",
                   auth_user="<user_name>", password="<password>", ref="default")
 ```
 
-### Who do I talk to? ###
+## Where do I start? ##
+For a detailed description of the functions in this package, see the reference manual ('aveytoolkit.pdf') in the `Source` tab.
+
+## Who do I talk to? ##
 
 * Stefan Avey <stefan.avey@yale.edu>

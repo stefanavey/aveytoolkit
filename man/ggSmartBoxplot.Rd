@@ -5,7 +5,7 @@
 \usage{
 ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
   rows, cols = NA, whichCols = NA, sep = ".", outlier.shape = 17,
-  outlier.color = NULL, fileName = NA, ...)
+  outlier.color = NULL, fileName = NA, plot = TRUE, ...)
 }
 \arguments{
 \item{x}{the variable to group by for boxplots}
@@ -31,6 +31,8 @@ ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
 \item{outlier.color}{color of outliers (default is NULL)}
 
 \item{fileName}{}
+
+\item{plot}{logical specifying whether or not to plot the plot(s). Default is TRUE.}
 
 \item{...}{other arguments that are passed to qplot}
 
