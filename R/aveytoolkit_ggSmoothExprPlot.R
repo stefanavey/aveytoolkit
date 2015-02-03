@@ -4,53 +4,60 @@
 ##'
 ##' @param x the numeric x-axis variable for the plot (usually time)
 ##' @param mat data.frame or matrix of values to plot with samples in columns
+##' @param rows row names or row indices of the items to be plotted
+##' @param smoothing a formula to use for smoothing in \code{stat_smooth} (e.g. "y ~ x"; "y ~ ns(x, 3)").
 ##' @param splitRowBy a factor used to split the data by row in facet_grid
 ##' @param splitColBy a factor used to split the data by col in facet_grid
 ##' @param colorBy a factor used for coloring. No coloring will be done if \code{NULL} (default)
-##' @param rows row names or row indices of the items to be plotted
 ##' @param cols substring to search for with "grep" in column names to be plotted
 ##' @param whichCols the column indices or full column names
 ##' @param sep a separator used in searching for cols in the column names
-##' @param outlier.shape shape of outliers (default is 17, filled triangle)
-##' @param outlier.color color of outliers (default is NULL)
-##' @param fileName 
+##' @param colorByLabel the labels used for the color legend
+##' @param ggtitle logical. If TRUE, \code{rows} is coerced to character and passed to ggtitle
+##' @param xlab passed to \code{xlab}. Defaults to "Time (Post-Vaccination)"
+##' @param ylab passed to \code{ylab}. Defaults to "Expression"
+##' @param colors The colors to use. Defaults to the colors given by using RColorBrewer's "Dark2" pallette (but RColorBrewer is not called directly so is not required).
+##' @param scales Are scales shared across all facets (the default, \code{"fixed"}), or do they vary across rows (\code{"free_x"}), columns (\code{"free_y"}), or both rows and columns (\code{"free"})
+##' @param fileName the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.
 ##' @param plot logical specifying whether or not to plot the plot(s). Default is TRUE.
-##' @param filename the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.
-##' @return invisibly returns a named list of the data frame(s) used for plotting the boxplot(s).  The names come from converting the rows argument to a character vector.
+##' @param space If \code{"fixed"}, the default, all panels have the same size.  If \code{"free_y"} their height will be proportional to the length of the y scale; if \code{"free_x"} their width will be proportional to the length of the x scale; or if \code{"free"} both height and width will vary.  This setting has no effect unless the appropriate scales also vary.
+##' @return invisibly returns a named list of the data frame(s) passed to data in ggplot.  The names come from converting the rows argument to a character vector.
 ##' @import ggplot2
 ##' @author Stefan Avey
 ##' @keywords aveytoolkit
-##' @seealso \code{\link{ggplot2}}, \code{\link{qplot}}
-##' @export
+##' @seealso \code{\link{ggplot2}}
+##' @export 
 ##' @examples
 ##' data(OrchardSprays)
 ##' ## Example of functionality
-##' ggSmartBoxplot(x=OrchardSprays$treatment,
-##'                mat=t(OrchardSprays[,1]),
-##'               rows=1, whichCols=1:ncol(t(OrchardSprays)),
-##'               colorBy=factor(OrchardSprays$rowpos+OrchardSprays$colpos > 9),
-##'               xlab="Treatment")
-##'
+##' library(Biobase)
+##' data(sample.ExpressionSet, package="Biobase")
+##' dat <- sample.ExpressionSet
+##' ## Normally x-axis is time but in this dataset there is no time
+##' ## so we will use the `score` as the x-axis
+##' genderF <- dat$sex == "Female"
+##' ggSmoothExprPlot(x=dat$score[genderF],
+##'                  mat=exprs(dat),
+##'                  rows="31345_at",
+##'                  whichCols=which(genderF), # females only
+##'                  colorBy=as.factor(dat$type)[genderF],
+##'                  colorByLabel="Condition",
+##'                  xlab="score")
 ##' ## NOT RUN:
-##' cellType <- "PBMC"
-##' geneSub <- grep("HLA-A29.1", rownames(expr))
-##' age <- "Young"
-##' ages <- c("Young", "Old")
-##' responses <- c("NR", "R")
-##' subset <- targetFClist[[cellType]]$Age %in% ages & 
-##'   targetFClist[[cellType]]$Response %in% responses
-##' ggSmartBoxplot(x=targetFClist[[cellType]][subset, "Time"],
-##'                mat=exprFClist[[cellType]], ylim=c(-1,1),
-##'                rows=geneSub, whichCols=which(subset), 
-##'                colorBy=targetFClist[[cellType]][subset,"Response"],
-##'                splitRowBy=targetFClist[[cellType]][subset,"Age"],
-##'                xlab="Days (Post Vaccination)",
-##'                fileName=NA)
-ggSmoothExprPlot <- function(x, mat, rows, splitRowBy=NA, splitColBy=NA,
+##' tmp <- ggSmoothExprPlot(x=times[subset], mat=expr, rows=gene,
+##'                         smoothing=formula("y ~ ns(x,3)"),
+##'                         whichCols=subset, colorBy=target[subset,respType],
+##'                         splitColBy=splitby,
+##'                         splitRowBy=as.factor(target[subset,"Study"]),
+##'                         ggtitle=TRUE, colorByLabel=respType, plot=TRUE)
+##' ## End NOT RUN
+ggSmoothExprPlot <- function(x, mat, rows, smoothing=formula("y ~ x"),
+                             splitRowBy=NA, splitColBy=NA,
                              colorBy=NULL, cols=NA, whichCols=NA, sep='.',
-                             respType="Response", ggtitle=TRUE,
-                             xlab="Time (Post-Vaccination)", ylab="Expression", 
-                             colors=c("#1B9E77", "#D95F02", "#7570B3"),
+                             colorByLabel="Response", ggtitle=TRUE,
+                             xlab="Time (Post-Vaccination)", ylab="Expression",
+                             colors=c("#1B9E77", "#D95F02", "#7570B3", "#E7298A",
+                               "#66A61E", "#E6AB02", "#A6761D", "#666666"),
                              space="fixed", scales="free_y",
                              fileName=NA, plot=TRUE)  {
   if(is.character(fileName))
@@ -64,7 +71,7 @@ ggSmoothExprPlot <- function(x, mat, rows, splitRowBy=NA, splitColBy=NA,
   for(r in rows) {
     if(is.na(cols) && !is.na(whichCols)) {
       submat <- mat[r,whichCols]
-      ## Find the common string separated  sep in the column names
+      ## Find the common string separated by `sep` in the column names
     } else if (is.na(whichCols) && !is.na(cols)) {
       submat <- mat[r,grep(paste0(sep, cols, sep), colnames(mat), fixed=T)]
     } else
@@ -113,12 +120,12 @@ ggSmoothExprPlot <- function(x, mat, rows, splitRowBy=NA, splitColBy=NA,
     ## print(dat)
     f <- ggplot(data=dat) +
       stat_smooth(alpha=0.1, size=1.5, aes(x=x, y=vals, fill=colorBy, color=colorBy),
-                  method="lm", formula = y ~ ns(x,3)) +
+                  method="lm", formula = smoothing) +
                     geom_jitter(data=dat, aes(x=x, y=vals, color=colorBy),
                                 position=position_jitter(width=0.2))
     f <- f + 
-        scale_fill_manual(name=respType, breaks = levels(dat$colorBy), values = colors) +
-          scale_color_manual(name=respType, breaks = levels(dat$colorBy), values = colors) +
+        scale_fill_manual(name=colorByLabel, breaks = levels(dat$colorBy), values = colors) +
+          scale_color_manual(name=colorByLabel, breaks = levels(dat$colorBy), values = colors) +
             xlab(xlab) + 
               ylab(ylab) +
                 theme_bw()
