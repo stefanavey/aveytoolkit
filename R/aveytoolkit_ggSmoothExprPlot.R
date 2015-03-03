@@ -5,7 +5,8 @@
 ##' @param x the numeric x-axis variable for the plot (usually time)
 ##' @param mat data.frame or matrix of values to plot with samples in columns
 ##' @param rows row names or row indices of the items to be plotted
-##' @param smoothing a formula to use for smoothing in \code{stat_smooth} (e.g. "y ~ x"; "y ~ ns(x, 3)").
+##' @param method smoothing method (function). See \code{stat_smooth}
+##' @param formula a formula to use for smoothing in \code{stat_smooth} (e.g. the default "y ~ x" or "y ~ ns(x, 3)").
 ##' @param splitRowBy a factor used to split the data by row in facet_grid
 ##' @param splitColBy a factor used to split the data by col in facet_grid
 ##' @param colorBy a factor used for coloring. No coloring will be done if \code{NULL} (default)
@@ -21,7 +22,11 @@
 ##' @param fileName the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.
 ##' @param plot logical specifying whether or not to plot the plot(s). Default is TRUE.
 ##' @param space If \code{"fixed"}, the default, all panels have the same size.  If \code{"free_y"} their height will be proportional to the length of the y scale; if \code{"free_x"} their width will be proportional to the length of the x scale; or if \code{"free"} both height and width will vary.  This setting has no effect unless the appropriate scales also vary.
-##' @return invisibly returns a named list of the data frame(s) passed to data in ggplot.  The names come from converting the rows argument to a character vector.
+##' @return invisibly returns a list with 2 elements:
+##' ggplot: the ggplot object to be plotted (this can be added to
+##' dat: a named list of the data frame(s) passed to data in ggplot.  The names come from converting the rows argument to a character vector.
+##' if plot=FALSE:
+##' invisibly returns the 
 ##' @import ggplot2
 ##' @author Stefan Avey
 ##' @keywords aveytoolkit
@@ -45,20 +50,21 @@
 ##'                  xlab="score")
 ##' ## NOT RUN:
 ##' tmp <- ggSmoothExprPlot(x=times[subset], mat=expr, rows=gene,
-##'                         smoothing=formula("y ~ ns(x,3)"),
+##'                         formula=formula("y ~ ns(x,3)"),
 ##'                         whichCols=subset, colorBy=target[subset,respType],
 ##'                         splitColBy=splitby,
 ##'                         splitRowBy=as.factor(target[subset,"Study"]),
 ##'                         ggtitle=TRUE, colorByLabel=respType, plot=TRUE)
 ##' ## End NOT RUN
-ggSmoothExprPlot <- function(x, mat, rows, smoothing=formula("y ~ x"),
+ggSmoothExprPlot <- function(x, mat, rows, method="auto",
+                             formula=formula("y ~ x"),
                              splitRowBy=NA, splitColBy=NA,
                              colorBy=NULL, cols=NA, whichCols=NA, sep='.',
                              colorByLabel="Response", ggtitle=TRUE,
                              xlab="Time (Post-Vaccination)", ylab="Expression",
                              colors=c("#1B9E77", "#D95F02", "#7570B3", "#E7298A",
                                "#66A61E", "#E6AB02", "#A6761D", "#666666"),
-                             space="fixed", scales="free_y",
+                             space="fixed", scales="fixed",
                              fileName=NA, plot=TRUE)  {
   if(is.character(fileName))
     pdf(fileName)
@@ -120,7 +126,7 @@ ggSmoothExprPlot <- function(x, mat, rows, smoothing=formula("y ~ x"),
     ## print(dat)
     f <- ggplot(data=dat) +
       stat_smooth(alpha=0.1, size=1.5, aes(x=x, y=vals, fill=colorBy, color=colorBy),
-                  method="lm", formula = smoothing) +
+                  method=method, formula = formula) +
                     geom_jitter(data=dat, aes(x=x, y=vals, color=colorBy),
                                 position=position_jitter(width=0.2))
     f <- f + 
@@ -155,7 +161,7 @@ ggSmoothExprPlot <- function(x, mat, rows, smoothing=formula("y ~ x"),
   }
   if(is.character(fileName))
     dev.off()
-  return(invisible(datList))
+  return(invisible(list(ggplot=f, dat=datList)))
 }
 
 

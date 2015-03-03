@@ -12,12 +12,17 @@
 ##' @param whichCols the column indices or full column names
 ##' @param sep a separator used in searching for cols in the column names
 ##' @param outlier.shape shape of outliers (default is 17, filled triangle)
-##' @param outlier.color color of outliers (default is NULL)
+##' @param outlier.color color of outliers (default is NULL, i.e. they will not be colored differently)
+##' @param ylab if NULL, default is to use rownames. Can specify a string instead to use
+##' @param space If \code{"fixed"}, the default, all panels have the same size.  If \code{"free_y"} their height will be proportional to the length of the y scale; if \code{"free_x"} their width will be proportional to the length of the x scale; or if \code{"free"} both height and width will vary.  This setting has no effect unless the appropriate scales also vary.
+##' @param scales Are scales shared across all facets (the default, \code{"fixed"}), or do they vary across rows (\code{"free_x"}), columns (\code{"free_y"}), or both rows and columns (\code{"free"})
 ##' @param fileName 
 ##' @param plot logical specifying whether or not to plot the plot(s). Default is TRUE.
 ##' @param ... other arguments that are passed to qplot
 ##' @param filename the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.
-##' @return invisibly returns a named list of the data frame(s) used for plotting the boxplot(s).  The names come from converting the rows argument to a character vector.
+##' @return invisibly returns a list with 2 elements:
+##' ggplot: the ggplot object to be plotted (this can be added to
+##' dat: a named list of the data frame(s) passed to data in ggplot.  The names come from converting the rows argument to a character vector.
 ##' @import ggplot2
 ##' @importFrom grid unit
 ##' @author Stefan Avey
@@ -50,6 +55,7 @@
 ##'                fileName=NA)
 ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, rows, cols=NA,
                            whichCols=NA, sep='.', outlier.shape=17, outlier.color=NULL,
+                           ylab=NULL, space="fixed", scales="fixed",                           
                            fileName=NA, plot=TRUE, ...)  {
 #  require(ggplot2)
   if(is.character(fileName))
@@ -118,7 +124,8 @@ ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, r
 #        scale_x_discrete() +
 #          geom_boxplot(aes(fill=colorBy), color=c("yellow", "blue"), outlier.shape=NA,
 #                       position=position_dodge(1)) +
-    f <- qplot(x, vals, data = dat, geom="boxplot", ylab=rowName, fill=colorBy,
+    if(is.null(ylab)) {ylab <- rowName}
+    f <- qplot(x, vals, data = dat, geom="boxplot", ylab=ylab, fill=colorBy,
                position=position_dodge(1),
                outlier.shape=outlier.shape,
                outlier.color=outlier.color,
@@ -136,14 +143,14 @@ ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, r
       f <- f + scale_fill_manual(name="", breaks=factor(colorBy), values=c("yellow", "blue"))
     ## Determine how to split based on values of splitRowBy and splitColBy
     if (!all(is.na(splitColBy)) && all(is.na(splitRowBy))) {
-      f <- f + facet_grid(. ~ splitColBy, scales = "free", 
-                          space = "free")
+      f <- f + facet_grid(. ~ splitColBy, scales = scales,
+                          space = space)
     } else if (!all(is.na(splitRowBy)) && all(is.na(splitColBy))) {
-      f <- f + facet_grid(splitRowBy ~ ., scales = "free", 
-                          space = "free")
+      f <- f + facet_grid(splitRowBy ~ ., scales = scales,
+                          space = space)
     } else if (!all(is.na(splitRowBy)) && !all(is.na(splitColBy))) {
-      f <- f + facet_grid(splitRowBy ~ splitColBy, scales = "free", 
-                          space = "free")
+      f <- f + facet_grid(splitRowBy ~ splitColBy, scales = scales,
+                          space = space)
     }
     ## No legend if only 1 color is used - does not work
     ## if(length(unique(colorBy)) == 1) {
@@ -156,7 +163,7 @@ ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, r
   }
   if(is.character(fileName))
     dev.off()
-  return(invisible(datList))
+  return(invisible(list(ggplot=f, dat=datList)))
 }
 
 
