@@ -4,7 +4,8 @@
 \alias{FoldChange}
 \title{FoldChange}
 \usage{
-FoldChange(x, condNum, condDen, conditions, grouping, log2Transform = FALSE)
+FoldChange(x, condNum, condDen, conditions, grouping, preserveOrder = FALSE,
+  log2Transform = FALSE)
 }
 \arguments{
 \item{x}{matrix or data.frame from which to calculate fold changes with samples in columns.}
@@ -17,6 +18,8 @@ FoldChange(x, condNum, condDen, conditions, grouping, log2Transform = FALSE)
 
 \item{grouping}{a vector with length equal to the number of columns of x containing a grouping of the samples (e.g. subjects, cell lines, strains).}
 
+\item{preserveOrder}{if TRUE, the same ordering of the columns in x will be kept after columns in condDen are removed. If FALSE (the default for backwards compatability), the ordering is changed to sort by group, then by condNum in order passed in.}
+
 \item{log2Transform}{when 'TRUE', log2 transformation will be applied to x before taking the FC. If 'FALSE' (default) no transformation is applied and x is ASSUMED to be already log transformed.}
 }
 \value{
@@ -26,7 +29,7 @@ a data.frame of the fold changes with one column for each fold change
 Calculate the fold change between pairs of conditions in a matrix or data frame
 }
 \details{
-FoldChange takes the fold change of log2 Transformed data by subtracting columns of the x dataframe or matrix depending on the conditions passed in.
+FoldChange takes the fold change of log2 transformed data by subtracting columns of the x dataframe or matrix depending on the conditions passed in.
 }
 \author{
 Stefan Avey

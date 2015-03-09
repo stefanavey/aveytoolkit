@@ -6,7 +6,8 @@
 \usage{
 ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
   rows, cols = NA, whichCols = NA, sep = ".", outlier.shape = 17,
-  outlier.color = NULL, fileName = NA, plot = TRUE, ...)
+  outlier.color = NULL, ylab = NULL, space = "fixed", scales = "fixed",
+  fileName = NA, plot = TRUE, ...)
 }
 \arguments{
 \item{x}{the variable to group by for boxplots}
@@ -29,7 +30,13 @@ ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
 
 \item{outlier.shape}{shape of outliers (default is 17, filled triangle)}
 
-\item{outlier.color}{color of outliers (default is NULL)}
+\item{outlier.color}{color of outliers (default is NULL, i.e. they will not be colored differently)}
+
+\item{ylab}{if NULL, default is to use rownames. Can specify a string instead to use}
+
+\item{space}{If \code{"fixed"}, the default, all panels have the same size.  If \code{"free_y"} their height will be proportional to the length of the y scale; if \code{"free_x"} their width will be proportional to the length of the x scale; or if \code{"free"} both height and width will vary.  This setting has no effect unless the appropriate scales also vary.}
+
+\item{scales}{Are scales shared across all facets (the default, \code{"fixed"}), or do they vary across rows (\code{"free_x"}), columns (\code{"free_y"}), or both rows and columns (\code{"free"})}
 
 \item{fileName}{}
 
@@ -40,7 +47,9 @@ ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
 \item{filename}{the name of a file to write a PDF to or \code{NA} to plot in standard graphics device.}
 }
 \value{
-invisibly returns a named list of the data frame(s) used for plotting the boxplot(s).  The names come from converting the rows argument to a character vector.
+invisibly returns a list with 2 elements:
+ggplot: the ggplot object to be plotted (this can be added to
+dat: a named list of the data frame(s) passed to data in ggplot.  The names come from converting the rows argument to a character vector.
 }
 \description{
 Boxplot wrapper for ggplot

@@ -2,12 +2,12 @@
 % Please edit documentation in R/aveytoolkit_geomMean.R
 \name{geomMean}
 \alias{geomMean}
-\title{resetPar}
+\title{geomMean}
 \usage{
 geomMean(x, na.rm = TRUE)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{a vector of positive numeric values.}
 
 \item{na.rm}{(optional) whether to remove \code{NA} values before calculation. Default is \code{TRUE}}
 }
@@ -18,15 +18,22 @@ the geometric mean of x
 Calculate the geometric mean
 }
 \details{
-This function handles 0 values by ignoring them
+This function handles negative or 0 values by warning that they are ignored and calculating the geometric mean without them
 }
 \examples{
 x <- 1:10
 x2 <- x^2
+x3 <- -5:5
+
 geomMean(x)
 mean(x)
+
 geomMean(x2)
 mean(x2)
+
+## Warning because x3 contains negative values ##
+geomMean(x3)
+mean(x3)
 }
 \author{
 Paul McMurdie
