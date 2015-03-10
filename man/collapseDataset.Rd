@@ -9,7 +9,7 @@ collapseDataset(exprsVals, platform = NULL, mapVector = NULL, oper = max,
   returnProbes = FALSE, deProbes = NULL)
 }
 \arguments{
-\item{exprsVals}{a matrix or data.frame of expression values with rownames denoting the probes.}
+\item{exprsVals}{a matrix or data.frame of numeric values with rownames denoting the identifiers.}
 
 \item{platform}{the microarray platform the data comes from for extracting the gene symbols}
 
@@ -19,7 +19,7 @@ collapseDataset(exprsVals, platform = NULL, mapVector = NULL, oper = max,
 
 \item{prefer}{one of "none", "up", or "down", can be abbreviated.}
 
-\item{singleProbeset}{If \code{TRUE}, the operation applies to the average of each sample. Otherwise, if \code{FALSE}, the operation applies to the probesets over all samples and only one probeset will be selected. Default is \code{FALSE}.}
+\item{singleProbeset}{If \code{TRUE}, the operation applies to the average over all conditions and all values for a gene will come from one probeset. Otherwise, if \code{FALSE}, the operation applies to the probesets over all conditions and the values for a gene may come from different probe sets . Default is \code{FALSE} for compatability reasons but \code{TRUE} is recommended.}
 
 \item{returnProbes}{if \code{TRUE}, a list of the collapsed expression matrix and the probes are both returned (see return).}
 
@@ -32,10 +32,29 @@ If returnProbes is \code{TRUE}, a list containing the collapsed dataset in $expr
 Collapses a dataset from probes to gene symbols.
 }
 \details{
-If singleProbeset is set to \code{TRUE}, untested and not recommended, the values for each sample will be taken from the maximum across any probe that maps to that gene.  This means that a gene's expression values may be a composition of values from different probes rather than a single probe.   if prefer is "up", when multiple deProbes match the same gene, the upregulated will be chosen.  Similary for "down".  Default is "none" and the probe with the oper will be chosen.
+This function is designed to work for microarray data but can work for any sort of numeric matrix for which multiple rows need to be collapsed.
+
+If singleProbeset is set to \code{FALSE}, the default for compatability reasons but untested and not recommended, the values for each sample will be taken from the maximum across any probe that maps to that gene.  This means that a gene's expression values may be a composition of values from different probes rather than a single probe.   Most users will not need to use the `prefer` argument.  If prefer is "up", when multiple deProbes match the same gene, the upregulated will be chosen.  Similary for "down".  Default is "none" and the probe with the `oper` (default max) will be chosen.
 }
 \examples{
-## ??
+## Trivial Example showing basic functionality
+fakeExpr <- matrix(rnorm(50, mean=8, sd=1), ncol=5, nrow=10,
+                   dimnames=list(probes=paste("probe", 1:10, sep='_'),
+                     samples=paste("sample", LETTERS[1:5], sep='_')))
+mv <- rep(paste("Gene", LETTERS[1:5], sep='_'), each=2) # mapVector
+names(mv) <- rownames(fakeExpr)
+res <- collapseDataset(fakeExpr, mapVector=mv, oper=max,
+                       singleProbeset=TRUE, # recommend setting singleProbeset to TRUE
+                       returnProbes=TRUE)
+res$probes
+## between probe_1 and probe_2, probe_2 was chosen for Gene_A
+## between probe_3 and probe_4, probe_4 was chosen for Gene_B
+## etc.
+
+res$exprsVals                           # collapsed expression values
+
+## only difference is in rownames, numbers are identical
+all.equal(res$exprsVals, fakeExpr[res$probes,])
 }
 \author{
 Christopher Bolen, Modified by Stefan Avey

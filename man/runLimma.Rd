@@ -5,8 +5,8 @@
 \title{runLimma}
 \usage{
 runLimma(eset, labels, contrasts, block = NULL, covariates = NULL,
-  filterReplicateGenes = TRUE, min.fold.change = 1, min.intensity = 4,
-  p.cutoff = 0.05, fitOnly = FALSE)
+  min.fold.change = 1, min.intensity = 4, p.cutoff = 0.05,
+  fitOnly = FALSE)
 }
 \arguments{
 \item{eset}{the expression matrix}
@@ -18,8 +18,6 @@ runLimma(eset, labels, contrasts, block = NULL, covariates = NULL,
 \item{block}{vector or factor specifying a blocking variable on the arrays. Has length equal to the number of arrays. Must be ‘NULL’ if ‘ndups>2’. (Not extensively tested, use with caution)}
 
 \item{covariates}{data frame of covariates (of same length as labels) to include in the model. Use this if there are paired samples, etc.}
-
-\item{filterReplicateGenes}{Only include one probeset for each gene (determined by symbol)}
 
 \item{min.fold.change}{Minimum log2 fold change to be differentially expressed. Default is 1.}
 
