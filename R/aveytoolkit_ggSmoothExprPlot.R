@@ -25,8 +25,6 @@
 ##' @return invisibly returns a list with 2 elements:
 ##' ggplot: the ggplot object to be plotted (this can be added to
 ##' dat: a named list of the data frame(s) passed to data in ggplot.  The names come from converting the rows argument to a character vector.
-##' if plot=FALSE:
-##' invisibly returns the 
 ##' @import ggplot2
 ##' @author Stefan Avey
 ##' @keywords aveytoolkit
