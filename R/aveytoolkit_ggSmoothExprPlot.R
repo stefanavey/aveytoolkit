@@ -46,14 +46,12 @@
 ##'                  colorBy=as.factor(dat$type)[genderF],
 ##'                  colorByLabel="Condition",
 ##'                  xlab="score")
-##' ## NOT RUN:
-##' tmp <- ggSmoothExprPlot(x=times[subset], mat=expr, rows=gene,
-##'                         formula=formula("y ~ ns(x,3)"),
-##'                         whichCols=subset, colorBy=target[subset,respType],
-##'                         splitColBy=splitby,
-##'                         splitRowBy=as.factor(target[subset,"Study"]),
-##'                         ggtitle=TRUE, colorByLabel=respType, plot=TRUE)
-##' ## End NOT RUN
+##' \dontrun{tmp <- ggSmoothExprPlot(x=times[subset], mat=expr, rows=gene,
+##'                                  formula=formula("y ~ ns(x,3)"),
+##'                                  whichCols=subset, colorBy=target[subset,respType],
+##'                                  splitColBy=splitby,
+##'                                  splitRowBy=as.factor(target[subset,"Study"]),
+##'                                  ggtitle=TRUE, colorByLabel=respType, plot=TRUE)}
 ggSmoothExprPlot <- function(x, mat, rows, method="auto",
                              formula=formula("y ~ x"),
                              splitRowBy=NA, splitColBy=NA,

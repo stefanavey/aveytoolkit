@@ -57,8 +57,6 @@ ggSmoothExprPlot(x, mat, rows, method = "auto", formula = formula("y ~ x"),
 invisibly returns a list with 2 elements:
 ggplot: the ggplot object to be plotted (this can be added to
 dat: a named list of the data frame(s) passed to data in ggplot.  The names come from converting the rows argument to a character vector.
-if plot=FALSE:
-invisibly returns the
 }
 \description{
 Wrapper around ggplot to transform data and plot profiles (e.g. expression or activity) over time
@@ -79,14 +77,12 @@ ggSmoothExprPlot(x=dat$score[genderF],
                  colorBy=as.factor(dat$type)[genderF],
                  colorByLabel="Condition",
                  xlab="score")
-## NOT RUN:
-tmp <- ggSmoothExprPlot(x=times[subset], mat=expr, rows=gene,
-                        formula=formula("y ~ ns(x,3)"),
-                        whichCols=subset, colorBy=target[subset,respType],
-                        splitColBy=splitby,
-                        splitRowBy=as.factor(target[subset,"Study"]),
-                        ggtitle=TRUE, colorByLabel=respType, plot=TRUE)
-## End NOT RUN
+\dontrun{tmp <- ggSmoothExprPlot(x=times[subset], mat=expr, rows=gene,
+                                 formula=formula("y ~ ns(x,3)"),
+                                 whichCols=subset, colorBy=target[subset,respType],
+                                 splitColBy=splitby,
+                                 splitRowBy=as.factor(target[subset,"Study"]),
+                                 ggtitle=TRUE, colorByLabel=respType, plot=TRUE)}
 }
 \author{
 Stefan Avey

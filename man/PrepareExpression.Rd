@@ -44,11 +44,13 @@ head(prepList$exprDat)
 head(prepList$target)
 head(prepList$probeMap)
 
-## NOT RUN:
+\dontrun{
+## Load expression data from HIPC package
 library(HIPC)
 data(y3ExprPBMC, y3Target)
 prepList <- PrepareExpression(y3ExprPBMC, y3Target,
                               select=c("Response", "SubjectID", "Age", "Time"))
+}
 }
 \author{
 Stefan Avey

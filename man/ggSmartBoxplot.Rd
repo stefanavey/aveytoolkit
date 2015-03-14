@@ -63,8 +63,9 @@ ggSmartBoxplot(x=OrchardSprays$treatment,
               colorBy=factor(OrchardSprays$rowpos+OrchardSprays$colpos > 9),
               xlab="Treatment")
 
-## NOT RUN:
+\dontrun{
 cellType <- "PBMC"
+## expr would be an expression matrix with genes in rows and samples in columns
 geneSub <- grep("HLA-A29.1", rownames(expr))
 age <- "Young"
 ages <- c("Young", "Old")
@@ -78,6 +79,7 @@ ggSmartBoxplot(x=targetFClist[[cellType]][subset, "Time"],
                splitRowBy=targetFClist[[cellType]][subset,"Age"],
                xlab="Days (Post Vaccination)",
                fileName=NA)
+}
 }
 \author{
 Stefan Avey
