@@ -6,7 +6,7 @@
 \usage{
 collapseDataset(exprsVals, platform = NULL, mapVector = NULL, oper = max,
   prefer = c("none", "up", "down"), singleProbeset = FALSE,
-  returnProbes = FALSE, deProbes = NULL)
+  returnProbes = FALSE, deProbes = NULL, debug = FALSE)
 }
 \arguments{
 \item{exprsVals}{a matrix or data.frame of numeric values with rownames denoting the identifiers.}
@@ -24,6 +24,8 @@ collapseDataset(exprsVals, platform = NULL, mapVector = NULL, oper = max,
 \item{returnProbes}{if \code{TRUE}, a list of the collapsed expression matrix and the probes are both returned (see return).}
 
 \item{deProbes}{a list with named vectors "up" and "down" giving the names of up and downregulated probes}
+
+\item{debug}{When TRUE, things will be printed out to help debug errors}
 }
 \value{
 If returnProbes is \code{TRUE}, a list containing the collapsed dataset in $exprsVals and the probes chosen in $probeSets.  Otherwise, if returnProbes is \code{FALSE}, only the expression matrix is returned.
@@ -35,6 +37,8 @@ Collapses a dataset from probes to gene symbols.
 This function is designed to work for microarray data but can work for any sort of numeric matrix for which multiple rows need to be collapsed.
 
 If singleProbeset is set to \code{FALSE}, the default for compatability reasons but untested and not recommended, the values for each sample will be taken from the maximum across any probe that maps to that gene.  This means that a gene's expression values may be a composition of values from different probes rather than a single probe.   Most users will not need to use the `prefer` argument.  If prefer is "up", when multiple deProbes match the same gene, the upregulated will be chosen.  Similary for "down".  Default is "none" and the probe with the `oper` (default max) will be chosen.
+
+Note that it is possible for multiple probes to have the same operation (\code{oper}) over all conditions and, in this case, I've decided arbitarily to choose the first one.
 }
 \examples{
 ## Trivial Example showing basic functionality

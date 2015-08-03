@@ -7,7 +7,7 @@
 ggSmoothExprPlot(x, mat, rows, method = "auto", formula = formula("y ~ x"),
   splitRowBy = NA, splitColBy = NA, colorBy = NULL, cols = NA,
   whichCols = NA, sep = ".", colorByLabel = "Response", ggtitle = TRUE,
-  xlab = "Time (Post-Vaccination)", ylab = "Expression",
+  xlab = "Time (Days Post-Vaccination)", ylab = "Expression",
   colors = c("#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E", "#E6AB02",
   "#A6761D", "#666666"), space = "fixed", scales = "fixed", fileName = NA,
   plot = TRUE)

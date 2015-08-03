@@ -10,10 +10,13 @@
 ##' @param singleProbeset If \code{TRUE}, the operation applies to the average over all conditions and all values for a gene will come from one probeset. Otherwise, if \code{FALSE}, the operation applies to the probesets over all conditions and the values for a gene may come from different probe sets . Default is \code{FALSE} for compatability reasons but \code{TRUE} is recommended.
 ##' @param returnProbes if \code{TRUE}, a list of the collapsed expression matrix and the probes are both returned (see return).
 ##' @param deProbes a list with named vectors "up" and "down" giving the names of up and downregulated probes
+##' @param debug When TRUE, things will be printed out to help debug errors
 ##' @return If returnProbes is \code{TRUE}, a list containing the collapsed dataset in $exprsVals and the probes chosen in $probeSets.  Otherwise, if returnProbes is \code{FALSE}, only the expression matrix is returned.
 ##' @details This function is designed to work for microarray data but can work for any sort of numeric matrix for which multiple rows need to be collapsed.
 ##'
 ##' If singleProbeset is set to \code{FALSE}, the default for compatability reasons but untested and not recommended, the values for each sample will be taken from the maximum across any probe that maps to that gene.  This means that a gene's expression values may be a composition of values from different probes rather than a single probe.   Most users will not need to use the `prefer` argument.  If prefer is "up", when multiple deProbes match the same gene, the upregulated will be chosen.  Similary for "down".  Default is "none" and the probe with the `oper` (default max) will be chosen.
+##'
+##' Note that it is possible for multiple probes to have the same operation (\code{oper}) over all conditions and, in this case, I've decided arbitarily to choose the first one.
 ##' @author Christopher Bolen, Modified by Stefan Avey
 ##' @keywords aveytoolkit
 ##' @export
@@ -38,13 +41,13 @@
 ##' all.equal(res$exprsVals, fakeExpr[res$probes,])
 collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max,
                             prefer=c("none", "up", "down"), singleProbeset=FALSE, returnProbes=FALSE,
-                            deProbes=NULL)
+                            deProbes=NULL, debug=FALSE)
 {
   if(is.null(platform) && is.null(mapVector)){
     stop("Need to include either a platform or a named vector to map to")
   }                              
   if(!is.null(platform)){
-    #find the right columns
+                                        #find the right columns
     if("Gene.Symbol" %in% names(platform)){ mapVector = as.vector(platform$Gene.Symbol)}
     else if("GeneSymbol" %in% names(platform)){ mapVector = as.vector(platform$GeneSymbol)}
     else if("SYMBOL" %in% names(platform)){ mapVector = as.vector(platform$SYMBOL)} 
@@ -60,13 +63,13 @@ collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max
   geneSymbols = mapVector[probeSets]
   allDEprobes <- Reduce(union, deProbes)
   
-  #remove probes with NO gene symbol
+                                        #remove probes with NO gene symbol
   probeSets_NoGeneSymbol = ((geneSymbols == "") | is.na(geneSymbols))
   exprsVals = as.matrix(exprsVals[ !probeSets_NoGeneSymbol,])
   probeSets = probeSets[!probeSets_NoGeneSymbol]
   geneSymbols = geneSymbols[!probeSets_NoGeneSymbol]
   
-  #remove rows that contain NAs
+                                        #remove rows that contain NAs
   missingData = apply(is.na(exprsVals), 1,any)
   exprsVals = as.matrix(exprsVals[ !missingData,])
   probeSets = probeSets[!missingData]
@@ -77,10 +80,11 @@ collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max
   ## combine all the probes for genes with more than one name using the following function
   geneSymbols_Multiple =  names(which(table(geneSymbols)>1))
   maxOfProbes = matrix(NA,nrow=length(geneSymbols_Multiple),ncol=dim(exprsVals)[2],
-    dimnames=list(geneSymbols_Multiple,colnames(exprsVals)))
+      dimnames=list(geneSymbols_Multiple,colnames(exprsVals)))
   maxProbeNames <- rep(NA, length(geneSymbols_Multiple))
   names(maxProbeNames) <- geneSymbols_Multiple
   for(g in geneSymbols_Multiple){
+    if(debug) { cat("Gene: ", g, '\n') }
     probes <- as.matrix(exprsVals[ which( geneSymbols %in% g ), ])
     if(!is.null(deProbes)) {
       ## If any probes are DE, choose the maximum from among those ones
@@ -88,7 +92,7 @@ collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max
       matchingProbes.de <- matchingProbes[which(matchingProbes %in% allDEprobes)]
       if(length(matchingProbes.de) > 0) {
         probes <- matrix(exprsVals[ (geneSymbols %in% g) &
-                                   (probeSets %in% matchingProbes.de), ],
+                                       (probeSets %in% matchingProbes.de), ],
                          nrow=length(matchingProbes.de), ncol=dim(exprsVals)[2])
         rownames(probes) <- rownames(exprsVals)[geneSymbols %in% g & probeSets %in% matchingProbes.de]
         ## Filter by prefer argument
@@ -107,13 +111,14 @@ collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max
     if (! singleProbeset ) {
       maxOfProbes[g,] = apply(probes,2,oper)
     } else { # only choose a single probeset for each duplicate
-      probeAverages = rowSums(probes)/ncol(probes)
-#      print(head(probeAverages))
-      whichMax = which(probeAverages == oper(probeAverages))
-      maxOfProbes[g,] = probes[whichMax,]
-      maxProbeNames[g] <- rownames(probes)[whichMax]
-    }
-#    Pause()
+        probeAverages = rowSums(probes)/ncol(probes)
+        if(debug) { print(head(probeAverages)) }
+        ## Could be more than 1 match but only take the first one
+        whichMax = which(probeAverages == oper(probeAverages))[1] 
+        maxOfProbes[g,] = probes[whichMax,]
+        maxProbeNames[g] <- rownames(probes)[whichMax]
+      }
+    ## Pause()
   }
 
   geneSymbols_Multiple = which( geneSymbols %in% geneSymbols_Multiple )
@@ -140,3 +145,4 @@ collapseDataset <- function(exprsVals, platform=NULL, mapVector=NULL, oper = max
   else # return only the expression matrix
     return(exprMat)
 }
+
