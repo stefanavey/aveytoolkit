@@ -9,7 +9,7 @@ runLimma(eset, labels, contrasts, block = NULL, covariates = NULL,
   fitOnly = FALSE)
 }
 \arguments{
-\item{eset}{the expression matrix}
+\item{eset}{the expression matrix (not expression set object)}
 
 \item{labels}{the labels for each column of the eset}
 
@@ -35,21 +35,40 @@ A wrapper around limma functions to perform a basic analysis on the given expres
 }
 \details{
 Generally, an expression matrix is made up of rows of genes (or any other features) and columns of samples. The matrix has data for multiple classes (which are denoted with the 'labels' parameter) and the classes are compared using the vector of contrasts. Block can be used for biological (or technical) replicates or for separate subjects (in which case it will determinte the inter-subject correlation).  See \code{?duplicateCorrelation} for more information.
+## Example:
+If you have a m X 10 matrix 'eset', with 5 samples of class A and 5 of class B,
+you could compare class A to class B using the following code:
+
+results = runLimma(eset, c('A','A','A','A','A','B','B','B','B','B'), "B-A")
+
+This will return to you a matrix with columns for each comparison and rows for each gene.
+The value in each cells will either be -1, 0, or 1, depending on whether the gene is
+significantly higher in B, not significant, or significantly higher in A, respectively.
+If you want information on p-values and fold changes, set "fitOnly=T", and you can access
+the fit object to get the information.
+
+For other comparisons, you can look at the LIMMA user guide: limmaUsersGuide()
 }
 \examples{
-## Example:
-## If you have a m X 10 matrix 'eset', with 5 samples of class A and 5 of class B,
-## you could compare class A to class B using the following code:
-##
-## results = runLimma(eset, c('A','A','A','A','A','B','B','B','B','B'), "B-A")
-##
-## This will return to you a matrix with columns for each comparison and rows for each gene.
-## The value in each cells will either be -1, 0, or 1, depending on whether the gene is
-## significantly higher in B, not significant, or significantly higher in A, respectively.
-## If you want information on p-values and fold changes, set "fitOnly=T", and you can access
-## the fit object to get the information.
-##
-## For other comparisons, you can look at the LIMMA user guide: limmaUsersGuide()
+\dontrun{
+## Load in example data from colonCA package (install if necessary)
+## source("http://bioconductor.org/biocLite.R")
+## biocLite("colonCA")
+library(colonCA)
+## Look at head of data
+head(pData(colonCA))
+labels <- pData(colonCA)$class          # t and n for tumor and normal
+## Data are paired (-1 and 1 come from same subject)
+pair <- factor(abs(pData(colonCA)$samp))
+covars <- data.frame(Pairing=as.character(pair))
+deRes <- runLimma(eset=exprs(colonCA), labels=as.character(labels), contrasts="t-n",
+                  covariates=covars, fitOnly=TRUE)
+topTable(deRes)
+## Or just do tests in the function to get -1, 0, 1 for DE status of each probe
+testRes <- runLimma(eset=exprs(colonCA), labels=as.character(labels), contrasts="t-n",
+                    covariates=data.frame(Pairing=as.character(pair)), fitOnly=FALSE)
+head(testRes)
+}
 }
 \author{
 Christopher Bolen, Stefan Avey
