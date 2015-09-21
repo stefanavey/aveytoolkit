@@ -50,12 +50,16 @@ annotatePDFs <- function(host="localhost", inFiles, outFiles,
                 "first name will be used.")
         outFiles <- outFiles[1]
       }
+      if( (length(inFiles) < 2) && combineMultiple) {
+        warning("Less than 2 inFiles specified, setting combineMultiple and removeMultiple to FALSE")
+        combineMultiple <- removeMultiple <- FALSE
+      }
     } else {
       if(length(inFiles) != length(outFiles)) {
         stop("inFiles and outFiles must have the same length when combineMultiple is FALSE")
       }
     }
-
+  
     ## Create the bash command
     cdCmd <- paste0("cd ", dirname(inFiles), "; ")
     bashCmd <- list()
