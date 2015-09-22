@@ -44,6 +44,12 @@ annotatePDFs <- function(host="localhost", inFiles, outFiles,
 
   {
     ## Error handling
+    if(any(nchar(basename(inFiles)) > 255)) {
+      stop("Some names in inFile are longer than 255 characters")
+    }
+    if(any(nchar(basename(outFiles)) > 255)) {
+      stop("Some names in outFiles are longer than 255 characters")
+    }
     if(combineMultiple) {
       if(length(outFiles) > 1) {
         warning("More than 1 file name given when combineMultiple is TRUE, only the ",
