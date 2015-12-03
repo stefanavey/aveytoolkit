@@ -5,7 +5,7 @@
 \title{FoldChange}
 \usage{
 FoldChange(x, condNum, condDen, conditions, grouping, preserveOrder = FALSE,
-  log2Transform = FALSE)
+  log2Transform = FALSE, oper = c("subtract", "divide"))
 }
 \arguments{
 \item{x}{matrix or data.frame from which to calculate fold changes with samples in columns.}
@@ -21,6 +21,8 @@ FoldChange(x, condNum, condDen, conditions, grouping, preserveOrder = FALSE,
 \item{preserveOrder}{if TRUE, the same ordering of the columns in x will be kept after columns in condDen are removed. If FALSE (the default for backwards compatability), the ordering is changed to sort by group, then by condNum in order passed in.}
 
 \item{log2Transform}{when 'TRUE', log2 transformation will be applied to x before taking the FC. If 'FALSE' (default) no transformation is applied and x is ASSUMED to be already log transformed.}
+
+\item{oper}{the operation to be performed between numerator and denominator. Default is 'subtract' because this is appropriate for log-transformed data. Set oper to 'divide' if data is on linear scale.}
 }
 \value{
 a data.frame of the fold changes with one column for each fold change

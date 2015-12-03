@@ -9,12 +9,15 @@
 ##' @param grouping a vector with length equal to the number of columns of x containing a grouping of the samples (e.g. subjects, cell lines, strains).
 ##' @param preserveOrder if TRUE, the same ordering of the columns in x will be kept after columns in condDen are removed. If FALSE (the default for backwards compatability), the ordering is changed to sort by group, then by condNum in order passed in.
 ##' @param log2Transform when 'TRUE', log2 transformation will be applied to x before taking the FC. If 'FALSE' (default) no transformation is applied and x is ASSUMED to be already log transformed.
+##' @param oper the operation to be performed between numerator and denominator. Default is 'subtract' because this is appropriate for log-transformed data. Set oper to 'divide' if data is on linear scale.
 ##' @return a data.frame of the fold changes with one column for each fold change
 ##' @details FoldChange takes the fold change of log2 transformed data by subtracting columns of the x dataframe or matrix depending on the conditions passed in.
 ##' @author Stefan Avey
 ##' @keywords aveytoolkit
 ##' @export
-FoldChange <- function(x, condNum, condDen, conditions, grouping, preserveOrder=FALSE, log2Transform=FALSE) {
+FoldChange <- function(x, condNum, condDen, conditions, grouping,
+                       preserveOrder=FALSE, log2Transform=FALSE,
+                       oper=c("subtract", "divide")) {
   if(length(grouping) != ncol(x)) {
     stop("grouping does not have the same number of elements as the columns (samples) of x.")
   }
@@ -23,6 +26,10 @@ FoldChange <- function(x, condNum, condDen, conditions, grouping, preserveOrder=
   }
   if( !(all(c(condNum, condDen) %in% conditions)) ) {
     stop("condNum or condDen contain values not in conditions.")
+  }
+  oper <- match.arg(oper)
+  if(oper == "divide" && log2Transform == TRUE) {
+    warning("using 'divide' operation on log2 Transformed data. Use default 'subtract'.")
   }
   xFC <- data.frame(matrix(nrow=nrow(x), ncol=ncol(x)), row.names=rownames(x))
   if(log2Transform) { x <- log2(x) }
@@ -35,7 +42,13 @@ FoldChange <- function(x, condNum, condDen, conditions, grouping, preserveOrder=
         colN <- intersect(which(conditions == cn), group)
         if(length(colN) == 1 && length(colD) == 1) {
           newIndex <- ifelse(preserveOrder, colN, ccv)
-          xFC[,newIndex] <- x[,colN] - x[,colD]
+          if(oper == "subtract") {
+            xFC[,newIndex] <- x[,colN] - x[,colD]
+          } else if(oper == "divide") {
+            xFC[,newIndex] <- x[,colN] / x[,colD]
+          } else {
+            stop("`oper` must be one of valid options")
+          }
           colnames(xFC)[newIndex] <- paste(g, paste(cn, cd, sep='-'), sep='.')
           ccv <- ccv + 1 # incrememt column count variable
         } else if(length(colN) > 1 || length(colD) > 1) {
