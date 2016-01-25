@@ -1,6 +1,6 @@
 Package: aveytoolkit
 Title: Compilation of functions for data analysis
-Version: 0.1.0.9008
+Version: 0.1.0.9010
 Authors@R: "Stefan Avey <stefan.avey@yale.edu> [aut, cre]"
 Description: Provides functionality for simple functions like Pause(), and
     resetPar() as well as some complex plotting functions. Some functions were
