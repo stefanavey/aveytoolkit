@@ -12,6 +12,7 @@
 ##'        Defaults to 1, 2, 3, ..., length(sets) if nonte specified.
 ##' @param setDescriptions a character vector of set descriptions corresponding
 ##'        to sets. Defaults to \code{NA} values if none specified.
+##' @export
 writeGMT <- function(filename, sets, setNames = names(sets),
                      setDescriptions = rep(NA, length(sets))) {
   lines <- vector(mode = "character", length=length(sets))
