@@ -13,7 +13,13 @@ an invisible named vector of loginID and password
 Uses tcltk to display a prompt for a loginID and password
 }
 \details{
-This function displays a window for a user to enter a loginID and password without showing the password.
+This function displays a window for a user to enter a loginID
+         and password without showing the password. It may be bad package
+         etiquette that \code{tcltk} is required for this function but not
+         imported in the NAMESPACE file. This is done because loading
+         \code{tcltk} will not work without a display and I want to be
+         able to use this package (even if not this function) without a
+         display
 }
 \examples{
 credentials <- getLoginDetails()
@@ -27,7 +33,7 @@ Markus Gesmann, Barry Rowlingson
 \url{http://www.r-bloggers.com/simple-user-interface-in-r-to-get-login-details/} \url{http://r.789695.n4.nabble.com/tkentry-that-exits-after-RETURN-tt854721.html#none}
 }
 \seealso{
-\code{\link{tcltk}}
+\code{tcltk}
 }
 \keyword{aveytoolkit}
 
