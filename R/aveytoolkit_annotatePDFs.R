@@ -1,4 +1,5 @@
-##' MakeDF
+##' annotatePDFs
+##' 
 ##' Add content on top of existing PDF files and can combine them into one file
 ##' using command line tools
 ##'
@@ -6,7 +7,6 @@
 ##' multiple PDF files and combine them into 1. This wrapper requires ghostscript
 ##' and coherent PDF (cpdf) \url{http://www.coherentpdf.com/} on the host machine
 ##' 
-##' @title annotatePDFs
 ##' @param host name of the host (e.g. <<user>>@@<<IP Address>>)
 ##' @param inFiles a character vector giving the current PDF names
 ##' @param outFiles a character vector of filenames to save PDFs to. Only the first
