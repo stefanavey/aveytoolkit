@@ -12,7 +12,6 @@
 ##' @param whichCols the column indices or full column names
 ##' @param sep a separator used in searching for cols in the column names
 ##' @param outlier.shape shape of outliers (default is 17, filled triangle)
-##' @param outlier.color color of outliers (default is NULL, i.e. they will not be colored differently)
 ##' @param ylab if NULL, default is to use rownames. Can specify a string instead to use
 ##' @param space If \code{"fixed"}, the default, all panels have the same size.  If \code{"free_y"} their height will be proportional to the length of the y scale; if \code{"free_x"} their width will be proportional to the length of the x scale; or if \code{"free"} both height and width will vary.  This setting has no effect unless the appropriate scales also vary.
 ##' @param scales Are scales shared across all facets (the default, \code{"fixed"}), or do they vary across rows (\code{"free_x"}), columns (\code{"free_y"}), or both rows and columns (\code{"free"})
@@ -56,8 +55,8 @@
 ##'                fileName=NA)
 ##' }
 ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, rows, cols=NA,
-                           whichCols=NA, sep='.', outlier.shape=17, outlier.color=NULL,
-                           ylab=NULL, space="fixed", scales="fixed",                           
+                           whichCols=NA, sep='.', outlier.shape=17,
+                           ylab=NULL, space="fixed", scales="fixed",
                            fileName=NA, plot=TRUE, ...)  {
 #  require(ggplot2)
   if(is.character(fileName))
@@ -128,9 +127,8 @@ ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, r
 #                       position=position_dodge(1)) +
     if(is.null(ylab)) {ylab <- rowName}
     f <- qplot(x, vals, data = dat, geom="boxplot", ylab=ylab, fill=colorBy,
-               position=position_dodge(1),
+               ## position=position_dodge(1), ## deprecated, not sure what this will break!
                outlier.shape=outlier.shape,
-               outlier.color=outlier.color,
                ...) +
                  geom_jitter(data=subset(dat, !is.outlier),
                              aes(x=x2),
