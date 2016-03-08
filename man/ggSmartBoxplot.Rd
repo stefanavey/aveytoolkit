@@ -6,8 +6,8 @@
 \usage{
 ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
   rows, cols = NA, whichCols = NA, sep = ".", outlier.shape = 17,
-  outlier.color = NULL, ylab = NULL, space = "fixed", scales = "fixed",
-  fileName = NA, plot = TRUE, ...)
+  ylab = NULL, space = "fixed", scales = "fixed", fileName = NA,
+  plot = TRUE, ...)
 }
 \arguments{
 \item{x}{the variable to group by for boxplots}
@@ -29,8 +29,6 @@ ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
 \item{sep}{a separator used in searching for cols in the column names}
 
 \item{outlier.shape}{shape of outliers (default is 17, filled triangle)}
-
-\item{outlier.color}{color of outliers (default is NULL, i.e. they will not be colored differently)}
 
 \item{ylab}{if NULL, default is to use rownames. Can specify a string instead to use}
 

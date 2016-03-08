@@ -40,7 +40,6 @@ value is used if \code{combineMultiple} is TRUE}
 an (invisible) list of exit codes for each bash operation
 }
 \description{
-MakeDF
 Add content on top of existing PDF files and can combine them into one file
 using command line tools
 }
