@@ -12,7 +12,7 @@
 ##' @param deProbes a list with named vectors "up" and "down" giving the names of up and downregulated probes
 ##' @param debug When TRUE, things will be printed out to help debug errors
 ##' @return If returnProbes is \code{TRUE}, a list containing the collapsed dataset in $exprsVals and the probes chosen in $probeSets.  Otherwise, if returnProbes is \code{FALSE}, only the expression matrix is returned.
-##' @details This function is designed to work for microarray data but can work for any sort of numeric matrix for which multiple rows need to be collapsed.
+##' @details This function is designed to work for microarray data but can work for any sort of numeric matrix for which multiple rows need to be collapsed. The \code{aggregate} function would probably work better and speed this up but this code is the slow brute force way to do it.
 ##'
 ##' If singleProbeset is set to \code{FALSE}, the default for compatability reasons but untested and not recommended, the values for each sample will be taken from the maximum across any probe that maps to that gene.  This means that a gene's expression values may be a composition of values from different probes rather than a single probe.   Most users will not need to use the `prefer` argument.  If prefer is "up", when multiple deProbes match the same gene, the upregulated will be chosen.  Similary for "down".  Default is "none" and the probe with the `oper` (default max) will be chosen.
 ##'
