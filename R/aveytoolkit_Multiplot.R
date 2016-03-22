@@ -42,7 +42,6 @@
 ##' 
 ##' Multiplot(p1, p2, p3, p4, cols=2)
 Multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  library(grid)
 
   ## Make a list from the ... arguments and plotlist
   plots <- c(list(...), plotlist)
