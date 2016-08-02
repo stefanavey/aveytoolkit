@@ -8,7 +8,7 @@
 
 ### Dependencies ###
 
-The following R packages are required for proper installation: `devtools` `ggplot2` `gplots`
+The following R packages are required for proper installation: `devtools` `ggplot2` `gplots` `limma`
 
 Install these from the R prompt by running
 ```
