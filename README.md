@@ -13,7 +13,12 @@ The following R packages are required for proper installation: `devtools` `ggplo
 Install these from the R prompt by running
 ```
 #!R
+## devtools, ggplot2, gplots
 install.packages(c("devtools", "ggplot2", "gplots"))
+
+## limma
+source("https://bioconductor.org/biocLite.R")
+biocLite("limma")
 ```
 
 ### Installation ###
