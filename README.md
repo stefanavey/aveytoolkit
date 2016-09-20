@@ -2,7 +2,7 @@
 
 ## What is this repository for? ##
 
-* This repository holds the aveytoolkit package. For details, see the [package description]((https://bitbucket.org/spa23/aveytoolkit-r-package/src/default/DESCRIPTION).
+* This repository holds the aveytoolkit package. For details, see the [package description](https://bitbucket.org/spa23/aveytoolkit-r-package/src/default/DESCRIPTION).
 
 ## How do I get set up? ##
 
