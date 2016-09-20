@@ -71,7 +71,7 @@ install_bitbucket(repo="spa23/aveytoolkit-r-package",
 ```
 
 ## Where do I start? ##
-For a detailed description of the functions in this package, see the reference manual ('aveytoolkit.pdf') in the `Source` tab.
+For a detailed description of the functions in this package, see the [reference manual](https://bitbucket.org/spa23/aveytoolkit-r-package/raw/default/aveytoolkit.pdf)
 
 ## Who do I talk to? ##
 

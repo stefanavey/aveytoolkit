@@ -1,14 +1,16 @@
 Package: aveytoolkit
-Title: Compilation of functions for data analysis
+Type: Package
+Title: Toolkit for Bioinformatics Data Analysis
 Version: 0.1.0.9021
+Date: 2016-09-20
 Authors@R: "Stefan Avey <stefan.avey@yale.edu> [aut, cre]"
-Description: Provides functionality for simple functions like Pause(), and
-    resetPar() as well as some complex plotting functions. Some functions were
-    copied from StackOverflow or other online sites while others were written by
-    Stefan Avey. The author and source is attributed in the documentation of each
-    function.
+Description: Provides functionality for simple functions and plotting
+    wrappers that are not associated with a specific project. Some functions were
+    copied from StackOverflow answers or other online sites while others are original.
+    The author and source is attributed in the documentation of each function.
 Depends:
     R (>= 3.0.2)
-License: CCO
+License: CC BY-NC-SA 4.0
+BugReports: https://bitbucket.org/spa23/aveytoolkit-r-package/issues
 LazyData: true
 RoxygenNote: 5.0.1

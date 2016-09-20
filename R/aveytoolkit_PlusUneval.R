@@ -11,7 +11,6 @@
 ##' @references \url{http://stackoverflow.com/questions/28777626/how-do-i-combine-aes-and-aes-string-options}
 ##' @export
 ##' @examples
-##' ## First Example
 ##' v1 <- "mpg"
 ##' v2 <- "qsec"
 ##' ggplot(mtcars, aes(x=wt)) + ylab("") +
