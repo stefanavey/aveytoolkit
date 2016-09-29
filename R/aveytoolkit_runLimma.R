@@ -11,6 +11,8 @@
 ##' @param min.intensity Minimum log2 intensity (at any time) to be differentially expressed. Default is 4.
 ##' @param p.cutoff FDR corrected cutoff for significant differential expression. Default is 0.05.
 ##' @param fitOnly If true, will return fit2, rather than the matrix of significant genes. Default is FALSE.
+##' @param robust passed to \code{eBayes}
+##' @param ... additional arguments passed to \code{lmFit}
 ##' @return depends on \code{fitOnly}
 ##' @details Generally, an expression matrix is made up of rows of genes (or any other features) and columns of samples. The matrix has data for multiple classes (which are denoted with the 'labels' parameter) and the classes are compared using the vector of contrasts. Block can be used for biological (or technical) replicates or for separate subjects (in which case it will determinte the inter-subject correlation).  See \code{?duplicateCorrelation} for more information.
 ##' ## Example:
@@ -51,53 +53,53 @@
 ##'                     covariates=data.frame(Pairing=as.character(pair)), fitOnly=FALSE)
 ##' head(testRes)
 ##' }
-runLimma  <- function(eset, labels, contrasts, block = NULL, covariates=NULL,
-                      min.fold.change = 1, min.intensity = 4, p.cutoff = 0.05, fitOnly = FALSE)
-{                                                                      
-  ##trim eset
-  tooLow =  eset < min.intensity
+runLimma  <- function (eset, labels, contrasts, block = NULL, covariates = NULL, 
+                       min.fold.change = 1, min.intensity = 4, p.cutoff = 0.05, 
+                       fitOnly = FALSE, robust = FALSE, ...) 
+{
+  tooLow = eset < min.intensity
   drop = apply(tooLow, 1, all)
-  eset = eset[!drop,]
-  
+  eset = eset[!drop, ]
   labels = as.factor(as.vector(labels))
-  if(is.null(covariates)){
-    design <- model.matrix(~ -1+labels)
+  if (is.null(covariates)) {
+    design <- model.matrix(~-1 + labels)
     colnames(design) <- levels(labels)
-  }else{
-   if(!is.data.frame(covariates)){stop("Covariates must be a data frame")}
-   
-   f = paste(c("~ 0 + labels",colnames(covariates)),collapse="+")
-   cns = levels(labels) #colnames for the final design matrix
-   for(i in 1:ncol(covariates)){
-     covariates[,i] = as.factor(covariates[,i])
-     cns = c(cns, paste("cov",i,levels(covariates[,i])[-1],sep="."))
-   }
-   attach(covariates, warn.conflicts=FALSE)
-   design <- model.matrix(formula(f))
-   colnames(design) = cns
-   detach(covariates)
+  }
+  else {
+    if (!is.data.frame(covariates)) {
+      stop("Covariates must be a data frame")
+    }
+    f = paste(c("~ 0 + labels", colnames(covariates)), collapse = "+")
+    cns = levels(labels)
+    for (i in 1:ncol(covariates)) {
+      covariates[, i] = as.factor(covariates[, i])
+      cns = c(cns, paste("cov", i, levels(covariates[, 
+          i])[-1], sep = "."))
+    }
+    attach(covariates, warn.conflicts = FALSE)
+    design <- model.matrix(formula(f))
+    colnames(design) = cns
+    detach(covariates)
   }
   cor <- NULL
-  if(!is.null(block)){
-   block <- as.factor(block)
-   corfit <- duplicateCorrelation(eset, design=design, block=block)
-   cor <- corfit$consensus.correlation
+  if (!is.null(block)) {
+    block <- as.factor(block)
+    corfit <- duplicateCorrelation(eset, design = design, 
+                                   block = block)
+    cor <- corfit$consensus.correlation
   }
-  fit <- lmFit(eset, design=design, block=block, correlation=cor)
-  ## fit <- lmFit(eset, design=design)#, cor=cor, block=block)  
-  ## For some unknown reason, using block causes rownames to disappear
-  rownames(fit$coefficients) <- rownames(eset) 
-  rownames(fit$stdev.unscaled) <- rownames(eset)           
-  
-  contrast.matrix <- makeContrasts( contrasts=contrasts, levels=design)
-  fit2 <- contrasts.fit(fit,contrast.matrix)
-  fit2 <- eBayes(fit2) 
-  results <- decideTests(fit2,adjust.method="BH",p.value=p.cutoff,lfc=min.fold.change)
-  
-  if(fitOnly){
+  fit <- lmFit(eset, design = design, block = block, correlation = cor, ...)
+  rownames(fit$coefficients) <- rownames(eset)
+  rownames(fit$stdev.unscaled) <- rownames(eset)
+  contrast.matrix <- makeContrasts(contrasts = contrasts, levels = design)
+  fit2 <- contrasts.fit(fit, contrast.matrix)
+  fit2 <- eBayes(fit2, robust = robust)
+  results <- decideTests(fit2, adjust.method = "BH", p.value = p.cutoff, 
+                         lfc = min.fold.change)
+  if (fitOnly) {
     return(fit2)
-  }else{
-    return(results) 
   }
-  
+  else {
+    return(results)
+  }
 }

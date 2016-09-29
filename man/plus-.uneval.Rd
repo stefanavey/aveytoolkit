@@ -13,7 +13,6 @@
 
 }
 \examples{
-## First Example
 v1 <- "mpg"
 v2 <- "qsec"
 ggplot(mtcars, aes(x=wt)) + ylab("") +

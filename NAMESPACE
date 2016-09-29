@@ -3,6 +3,7 @@
 S3method("+",uneval)
 export(AverageReplicates)
 export(FoldChange)
+export(GetObjectSizes)
 export(INT)
 export(MakeDF)
 export(Multiplot)

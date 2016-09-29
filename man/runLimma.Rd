@@ -6,7 +6,7 @@
 \usage{
 runLimma(eset, labels, contrasts, block = NULL, covariates = NULL,
   min.fold.change = 1, min.intensity = 4, p.cutoff = 0.05,
-  fitOnly = FALSE)
+  fitOnly = FALSE, robust = FALSE, ...)
 }
 \arguments{
 \item{eset}{the expression matrix (not expression set object)}
@@ -26,6 +26,10 @@ runLimma(eset, labels, contrasts, block = NULL, covariates = NULL,
 \item{p.cutoff}{FDR corrected cutoff for significant differential expression. Default is 0.05.}
 
 \item{fitOnly}{If true, will return fit2, rather than the matrix of significant genes. Default is FALSE.}
+
+\item{robust}{passed to \code{eBayes}}
+
+\item{...}{additional arguments passed to \code{lmFit}}
 }
 \value{
 depends on \code{fitOnly}
