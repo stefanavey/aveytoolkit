@@ -2,7 +2,7 @@
 ##'
 ##' @description
 ##' \code{GetObjectSizes} uses \code{ls()} and \code{object.size} to see what
-##' objects are using most of the memory.
+##' objects are using most of the memory. \code{lsos()} is better for this purpose.
 ##' @param name which environment to use in listing the available objects.
 ##'             Defaults to the _current_ environment.  Although called
 ##'             ‘name’ for back compatibility, in fact this argument can

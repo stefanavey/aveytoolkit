@@ -25,7 +25,7 @@ A named character vector with names corresponding to objects and values
 }
 \description{
 \code{GetObjectSizes} uses \code{ls()} and \code{object.size} to see what
-objects are using most of the memory.
+objects are using most of the memory. \code{lsos()} is better for this purpose.
 }
 \details{
 
