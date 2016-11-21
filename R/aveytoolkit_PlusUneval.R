@@ -1,12 +1,8 @@
-##' @title +.uneval
+##' Addition for \code{aes()} and \code{aes_string()}
 ##'
-##' @description
 ##' \code{+.uneval} is a helper function to allow adding aes and aes_string in ggplot2
 ##'
-##' @details
 ##' 
-##' 
-##' @author Stefan Avey
 ##' @keywords aveytoolkit
 ##' @references \url{http://stackoverflow.com/questions/28777626/how-do-i-combine-aes-and-aes-string-options}
 ##' @export
