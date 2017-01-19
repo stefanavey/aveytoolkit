@@ -2,15 +2,12 @@
 % Please edit documentation in R/aveytoolkit_PlusUneval.R
 \name{+.uneval}
 \alias{+.uneval}
-\title{+.uneval}
+\title{Addition for \code{aes()} and \code{aes_string()}}
 \usage{
 \method{+}{uneval}(a, b)
 }
 \description{
 \code{+.uneval} is a helper function to allow adding aes and aes_string in ggplot2
-}
-\details{
-
 }
 \examples{
 v1 <- "mpg"
@@ -19,9 +16,6 @@ ggplot(mtcars, aes(x=wt)) + ylab("") +
    geom_line(aes_string(y=v1) + aes(color="one")) +
    geom_line(aes_string(y=v2) + aes(color="two")) +
    scale_color_manual(name="Val", values=c(one="#105B63",two="#BD4932"))
-}
-\author{
-Stefan Avey
 }
 \references{
 \url{http://stackoverflow.com/questions/28777626/how-do-i-combine-aes-and-aes-string-options}
