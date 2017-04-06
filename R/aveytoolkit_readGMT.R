@@ -1,4 +1,4 @@
-#' aveytoolkit_readGMT.R
+#' readGMT.R
 #' 
 #' Read in a GMT (Gene Matrix Transposed) file.
 #' 
