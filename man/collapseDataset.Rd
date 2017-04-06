@@ -13,7 +13,7 @@ collapseDataset(exprsVals, platform = NULL, mapVector = NULL, oper = max,
 
 \item{platform}{the microarray platform the data comes from for extracting the gene symbols}
 
-\item{mapVector}{a named character vector with names specififying the current identifiers (probes matching the rownames of exprsVals) and the values of the vector specifying the gene symbols (or other identifier to collapse to).}
+\item{mapVector}{a uniquely named character vector with names specififying the current identifiers (probes matching the rownames of exprsVals) and the values of the vector specifying the gene symbols (or other identifier to collapse to).}
 
 \item{oper}{the operation used to choose which probe when multiple probes map to the same gene.  Default is max which will calculate the maximum of the average.}
 
