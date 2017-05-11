@@ -2,7 +2,7 @@
 % Please edit documentation in R/aveytoolkit_readGMT.R
 \name{readGMT}
 \alias{readGMT}
-\title{aveytoolkit_readGMT.R}
+\title{readGMT.R}
 \usage{
 readGMT(filename, trimMissing = TRUE, quiet = FALSE)
 }

@@ -50,14 +50,35 @@ and coherent PDF (cpdf) \url{http://www.coherentpdf.com/} on the host machine
 }
 \examples{
 
-## Still keeps the original files because
-## removeMultiple is FALSE
-annotatePDFs(inFiles=paste0("inFile", 1:2)
-             outFiles=paste0("outFile", 1:2),
-             titles=paste0("testTitle", 1:2),
-             footers=paste0("testFooter", 1:2),
-             combineMultiple=TRUE,
-             removeMultiple=FALSE)
+## Create 2 dummy plots that I want to combine.
+## NOTE: You would never do this because pdf() can create multiple pages
+pdf("inFile1.pdf"); plot(1:10); dev.off()
+pdf("inFile2.pdf"); plot(10:20); dev.off()
+
+## Annotate some PDFs without combining
+## BROKEN!
+annotatePDFs(inFiles = paste0("inFile", 1:2, ".pdf"),
+             outFiles = paste0("outFile", 1:2, ".pdf"),
+             titles = paste0("testTitle", 1:2),
+             footers = paste0("testFooter", 1:2),
+             combineMultiple = FALSE,
+             removeMultiple = FALSE)
+
+## Still keeps the original files because removeMultiple is FALSE
+annotatePDFs(inFiles = paste0("inFile", 1:2, ".pdf"),
+             outFiles = "outFile.pdf",
+             titles = paste0("testTitle", 1:2),
+             footers = paste0("testFooter", 1:2),
+             combineMultiple = TRUE,
+             removeMultiple = FALSE)
+
+## Removes the original input files
+annotatePDFs(inFiles = paste0("inFile", 1:2, ".pdf"),
+             outFiles = "outFile.pdf",
+             titles = paste0("testTitle", 1:2),
+             footers = paste0("testFooter", 1:2),
+             combineMultiple = TRUE,
+             removeMultiple = TRUE)
 }
 \author{
 Stefan Avey
