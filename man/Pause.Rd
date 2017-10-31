@@ -26,11 +26,10 @@ for(p in 1:10) {
   Pause(paste0('see plot of x^',p+1))
 }
 }
-\author{
-Stefan Avey
-}
 \seealso{
 \code{\link{readline}}, \code{\link{invisible}}
 }
+\author{
+Stefan Avey
+}
 \keyword{aveytoolkit}
-

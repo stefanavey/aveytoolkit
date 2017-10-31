@@ -33,11 +33,10 @@ goodNames
 goodNames <- ProcessNames(badNames,stringsToRm="Who's", rmPunct=FALSE, sep='')
 goodNames                          
 }
-\author{
-Stefan Avey
-}
 \seealso{
 \code{\link{gsub}}
 }
+\author{
+Stefan Avey
+}
 \keyword{aveytoolkit}
-

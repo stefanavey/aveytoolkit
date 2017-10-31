@@ -64,4 +64,3 @@ all.equal(res$exprsVals, fakeExpr[res$probes,])
 Christopher Bolen, Modified by Stefan Avey
 }
 \keyword{aveytoolkit}
-

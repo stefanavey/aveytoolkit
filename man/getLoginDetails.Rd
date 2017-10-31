@@ -26,14 +26,13 @@ credentials <- getLoginDetails()
 ## Do what needs to be done with loginID and password
 rm(credentials) # Delete credentials
 }
-\author{
-Markus Gesmann, Barry Rowlingson
-}
 \references{
 \url{http://www.r-bloggers.com/simple-user-interface-in-r-to-get-login-details/} \url{http://r.789695.n4.nabble.com/tkentry-that-exits-after-RETURN-tt854721.html#none}
 }
 \seealso{
 \code{tcltk}
 }
+\author{
+Markus Gesmann, Barry Rowlingson
+}
 \keyword{aveytoolkit}
-

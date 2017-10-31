@@ -4,7 +4,7 @@
 \alias{cbind.fill}
 \title{resetPar}
 \usage{
-cbind.fill(...)
+\method{cbind}{fill}(...)
 }
 \arguments{
 \item{...}{the objects, that will be converted to a list, to bind column-wise}
@@ -24,14 +24,13 @@ cbind.fill(x,y)
 cbind.fill(x,y,z)
 cbind.fill(mtcars, mtcars[1:10,])
 }
-\author{
-Dimitris Rizopoulos and Tyler Rinker
-}
 \references{
 \url{http://stackoverflow.com/questions/7962267/cbind-a-df-with-an-empty-df-cbind-fill}
 }
 \seealso{
 \code{\link{cbind}}
 }
+\author{
+Dimitris Rizopoulos and Tyler Rinker
+}
 \keyword{aveytoolkit}
-

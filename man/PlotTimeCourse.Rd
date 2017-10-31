@@ -69,4 +69,3 @@ Colors are assumed to have as the names attribute some part of the sampleName wh
 Stefan Avey
 }
 \keyword{aveytoolkit}
-

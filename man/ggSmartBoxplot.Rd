@@ -79,11 +79,10 @@ ggSmartBoxplot(x=targetFClist[[cellType]][subset, "Time"],
                fileName=NA)
 }
 }
-\author{
-Stefan Avey
-}
 \seealso{
 \code{\link{ggplot2}}, \code{\link{qplot}}
 }
+\author{
+Stefan Avey
+}
 \keyword{aveytoolkit}
-

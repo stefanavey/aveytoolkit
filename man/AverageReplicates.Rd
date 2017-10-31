@@ -28,4 +28,3 @@ avgMat <- AverageReplicates(mat, numRep=2) ## average adjacent pairs of columns
 Stefan Avey
 }
 \keyword{aveytoolkit}
-

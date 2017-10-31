@@ -37,4 +37,3 @@ FoldChange takes the fold change of log2 transformed data by subtracting columns
 Stefan Avey
 }
 \keyword{aveytoolkit}
-

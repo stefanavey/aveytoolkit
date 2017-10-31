@@ -29,4 +29,3 @@ Take in a vector of set names, descriptions, and gene identifiers and
 \author{
 Stefan Avey
 }
-

@@ -74,11 +74,10 @@ testRes <- runLimma(eset=exprs(colonCA), labels=as.character(labels), contrasts=
 head(testRes)
 }
 }
-\author{
-Christopher Bolen, Stefan Avey
-}
 \seealso{
 \code{\link{limma}}
 }
+\author{
+Christopher Bolen, Stefan Avey
+}
 \keyword{aveytoolkit}
-

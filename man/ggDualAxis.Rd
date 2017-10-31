@@ -45,10 +45,9 @@ plot2.y = qplot(y = y2, x = x1, data = data.add.x)
 # Run function
 ggDualAxis(plot1.y, plot2.y, "y")
 }
-\author{
-Jon Lefcheck
-}
 \references{
 \url{https://gist.github.com/jslefche/e4c0e9f57f0af49fca87}
 }
-
+\author{
+Jon Lefcheck
+}

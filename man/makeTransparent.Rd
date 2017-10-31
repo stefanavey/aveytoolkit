@@ -23,14 +23,13 @@ makeTransparent("red", "blue")
 makeTransparent("red", "blue", alpha=0.8)
 ## [1] "#FF0000CC" "#0000FFCC"
 }
-\author{
-Ricardo Oliveros-Ramos
-}
 \references{
 \url{http://stackoverflow.com/questions/8047668/transparent-equivalent-of-given-color}
 }
 \seealso{
 \code{\link{rgb}}, \code{\link{col2rgb}}
 }
+\author{
+Ricardo Oliveros-Ramos
+}
 \keyword{aveytoolkit}
-

@@ -27,4 +27,3 @@ browseIndex("utils")
 Stefan Avey
 }
 \keyword{aveytoolkit}
-

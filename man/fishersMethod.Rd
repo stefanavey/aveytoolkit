@@ -16,11 +16,10 @@ This function combines multiple p-values according to Fisher's Method
 x <- c(runif(1000, 0, 1),runif(100,.1,.2))
 fishersMethod(x)
 }
-\author{
-Mike Love
-}
 \references{
 \url{http://mikelove.wordpress.com/2012/03/12/combining-p-values-fishers-method-sum-of-p-values-binomial/}
 }
+\author{
+Mike Love
+}
 \keyword{aveytoolkit}
-

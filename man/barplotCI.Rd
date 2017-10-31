@@ -26,4 +26,3 @@ Create a barplot from the list x with one bar for each element of x
 \author{
 Christopher Bolen (creator) ; Stefan Avey (modified)
 }
-

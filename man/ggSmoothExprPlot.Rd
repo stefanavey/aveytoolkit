@@ -84,11 +84,10 @@ ggSmoothExprPlot(x=dat$score[genderF],
                                  splitRowBy=as.factor(target[subset,"Study"]),
                                  ggtitle=TRUE, colorByLabel=respType, plot=TRUE)}
 }
-\author{
-Stefan Avey
-}
 \seealso{
 \code{\link{ggplot2}}
 }
+\author{
+Stefan Avey
+}
 \keyword{aveytoolkit}
-

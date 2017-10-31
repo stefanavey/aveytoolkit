@@ -22,14 +22,13 @@ plot(1,1)
 resetPar()
 plot(1,1)
 }
-\author{
-Gavin Simpson
-}
 \references{
 \url{http://stackoverflow.com/questions/5789982/reset-par-to-the-default-values-at-startup}
 }
 \seealso{
 \code{par}
 }
+\author{
+Gavin Simpson
+}
 \keyword{aveytoolkit}
-

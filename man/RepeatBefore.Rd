@@ -23,14 +23,13 @@ x = c(NA,NA,'a',NA,NA,NA,NA,NA,NA,NA,NA,'b','c','d',NA,NA,NA,NA,NA,'e')
 newX <- RepeatBefore(x)
 show(newX)
 }
-\author{
-Ruben
-}
 \references{
 \url{http://stackoverflow.com/questions/7735647/replacing-nas-with-latest-non-na-value}
 }
 \seealso{
 \code{\link{rep}}
 }
+\author{
+Ruben
+}
 \keyword{aveytoolkit}
-

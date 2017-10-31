@@ -52,10 +52,9 @@ p4 <- ggplot(subset(ChickWeight, Time==21), aes(x=weight, fill=Diet)) +
 
 Multiplot(p1, p2, p3, p4, cols=2)
 }
-\author{
-R Cookbook
-}
 \references{
 \url{http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_\%28ggplot2\%29/}
 }
-
+\author{
+R Cookbook
+}

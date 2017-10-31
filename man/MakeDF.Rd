@@ -27,14 +27,13 @@ system.time(makeDF(ll, nms))
 # user  system elapsed
 # 0.47    0.00    0.47 
 }
-\author{
-Josh O'Brien
-}
 \references{
 \url{http://stackoverflow.com/questions/15753091/convert-mixed-length-named-list-to-data-frame}
 }
 \seealso{
 \code{\link{gsub}}
 }
+\author{
+Josh O'Brien
+}
 \keyword{aveytoolkit}
-

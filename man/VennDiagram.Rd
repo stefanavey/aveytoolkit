@@ -18,14 +18,13 @@ Draw a venn diagram of 2 or 3 sets
 \details{
 Wrapper around the \code{\link{limma}} \code{\link{vennDiagram}} function to make it simpler.
 }
-\author{
-Stefan Avey
-}
 \references{
 Code modified from \url{http://research.stowers-institute.org/mcm/venn.R}
 }
 \seealso{
 \code{\link{vennDiagram}}
 }
+\author{
+Stefan Avey
+}
 \keyword{aveytoolkit}
-

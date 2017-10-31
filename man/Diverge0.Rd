@@ -38,10 +38,9 @@ pheatmap(mat = hm, color = div$colors, breaks = div$breaks)
 }
 
 }
-\author{
-John Baumgartner, Stefan Avey
-}
 \references{
 \url{https://gist.github.com/johnbaums/306e4b7e69c87b1826db}
 }
-
+\author{
+John Baumgartner, Stefan Avey
+}

@@ -1,7 +1,7 @@
 Package: aveytoolkit
 Type: Package
 Title: Toolkit for Bioinformatics Data Analysis
-Version: 0.1.0.9040
+Version: 0.1.0.9041
 Date: 2016-09-20
 Authors@R: "Stefan Avey <stefan.avey@yale.edu> [aut, cre]"
 Description: Provides functionality for simple functions and plotting
@@ -13,4 +13,4 @@ Depends:
 License: CC BY-NC-SA 4.0
 BugReports: https://bitbucket.org/spa23/aveytoolkit-r-package/issues
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

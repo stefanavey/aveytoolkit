@@ -45,4 +45,3 @@ hist(INT(x3, ties.method = "max"))
 Stefan Avey
 }
 \keyword{aveytoolkit}
-

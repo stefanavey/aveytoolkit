@@ -18,4 +18,3 @@ plot(p)
 Jason Vander Heiden <jason.vanderheiden@yale.edu>
 }
 \keyword{aveytoolkit}
-

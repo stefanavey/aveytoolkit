@@ -83,4 +83,3 @@ annotatePDFs(inFiles = paste0("inFile", 1:2, ".pdf"),
 \author{
 Stefan Avey
 }
-

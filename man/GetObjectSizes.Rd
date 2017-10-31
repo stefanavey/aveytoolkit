@@ -37,11 +37,10 @@ biggerMat <- matrix(NA, nrow = 10000, ncol = 10000)
 GetObjectSizes()
 GetObjectSizes(units = "Gb")
 }
-\author{
-Stefan Avey
-}
 \seealso{
 \code{ls}, \code{object.size}
 }
+\author{
+Stefan Avey
+}
 \keyword{aveytoolkit}
-

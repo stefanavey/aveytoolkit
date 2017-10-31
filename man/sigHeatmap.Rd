@@ -65,4 +65,3 @@ rownames(mtcars)[setdiff(1:nrow(mtcars), sel)]
 Stefan Avey
 }
 \keyword{aveytoolkit}
-

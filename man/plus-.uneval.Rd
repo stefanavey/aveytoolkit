@@ -21,4 +21,3 @@ ggplot(mtcars, aes(x=wt)) + ylab("") +
 \url{http://stackoverflow.com/questions/28777626/how-do-i-combine-aes-and-aes-string-options}
 }
 \keyword{aveytoolkit}
-
