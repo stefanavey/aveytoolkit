@@ -15,6 +15,6 @@ p <- p + geom_point() + getBaseTheme()
 plot(p)
 }
 \author{
-Jason Vander Heiden <jason.vanderheiden@yale.edu>
+Jason Vander Heiden <jason.vanderheiden@yale.edu>, Stefan Avey <stefan.avey@yale.edu>
 }
 \keyword{aveytoolkit}
