@@ -4,12 +4,14 @@
 \alias{geomMean}
 \title{geomMean}
 \usage{
-geomMean(x, na.rm = FALSE)
+geomMean(x, na.rm = FALSE, zero.propagate = TRUE)
 }
 \arguments{
-\item{x}{a vector of positive numeric values.}
+\item{x}{a vector of non-negative numeric values.}
 
 \item{na.rm}{(optional) whether to remove \code{NA} values before calculation. Default is \code{FALSE}}
+
+\item{zero.propagate}{(optional) logical specifying whether zeros should be progated such that if there are zeros in `x` 0 should be returned.}
 }
 \value{
 the geometric mean of x
@@ -18,12 +20,13 @@ the geometric mean of x
 Calculate the geometric mean
 }
 \details{
-This function handles negative or 0 values by warning that they are ignored and calculating the geometric mean without them
+This function handles negative values by returning `NaN` and zeros by returning `0` by default.
 }
 \examples{
 x <- 1:10
 x2 <- c(x, NA)
 x3 <- -5:5
+x4 <- 0:4
 
 geomMean(x)
 mean(x)
@@ -34,9 +37,13 @@ mean(x2)
 geomMean(x2, na.rm = TRUE)
 mean(x2, na.rm = TRUE)
 
-## Warning because x3 contains negative values ##
+## NaN because because x3 contains negative values ##
 geomMean(x3)
 mean(x3)
+
+geomMean(x4)
+geomMean(x4, zero.propagate = FALSE)
+mean(x4)
 }
 \references{
 \url{http://stackoverflow.com/questions/2602583/geometric-mean-is-there-a-built-in}
