@@ -16,8 +16,8 @@
 GetEqn <- function(m)
 {
   .lm_eqn <- function(m) {
-    l <- list(a = format(coef(m)[1], digits = 2),
-              b = format(abs(coef(m)[2]), digits = 2),
+    l <- list(a = format(coef(m)[[1]], digits = 2),
+              b = format(abs(coef(m)[[2]]), digits = 2),
               r2 = format(summary(m)$r.squared, digits = 2));
     
     if (coef(m)[2] >= 0)  {
@@ -29,8 +29,8 @@ GetEqn <- function(m)
   }
 
   .nls_eqn <- function(m) {
-    l <- list(a = format(coef(m)[1], digits = 2),
-              b = format(abs(coef(m)[2]), digits = 2),
+    l <- list(a = format(coef(m)[[1]], digits = 2),
+              b = format(abs(coef(m)[[2]]), digits = 2),
               rss = format(deviance(m), digits = 2))
 
     if (coef(m)[2] >= 0)  {
