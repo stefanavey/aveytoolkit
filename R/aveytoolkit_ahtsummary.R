@@ -1,4 +1,4 @@
-##' htsummary
+##' ahtsummary
 ##'
 ##' print out the head and tail as well as a data summary
 ##'
@@ -14,7 +14,7 @@
 ##' @details knitr::kable is used if knitr is installed and `markdown == TRUE`
 ##' 
 ##' @export
-htsummary <- function(x, hlength = 5, tlength = 5, digits = 2, markdown = FALSE) {
+ahtsummary <- function(x, hlength = 5, tlength = 5, digits = 2, markdown = FALSE) {
     .convert <- function(x) {
         if (require("knitr") && markdown) {
             return(knitr::kable(x))
