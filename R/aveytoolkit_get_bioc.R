@@ -8,8 +8,6 @@
 ##'     completed)
 ##' @details This is a convenience function that prevents need to copy/paste
 ##'     from Bioconductor website to get the biocLite function
-##' @importFrom rlang enquos quo_name
-##' @importFrom purrr map
 ##' @author Robert Amezquita, Stefan Avey
 ##' @examples
 ##' \dontrun{

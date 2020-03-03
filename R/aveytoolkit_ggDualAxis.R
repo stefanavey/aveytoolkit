@@ -10,8 +10,6 @@
 #' @author Jon Lefcheck
 #' @references \url{https://gist.github.com/jslefche/e4c0e9f57f0af49fca87}
 #' @import ggplot2
-#' @importFrom grid grid.newpage grid.draw
-#' @importFrom gtable gtable_add_grob gtable_add_rows gtable_add_cols
 #' @export
 #' @examples
 #' ## Example for x axis

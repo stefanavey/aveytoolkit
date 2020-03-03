@@ -1,9 +1,9 @@
 Package: aveytoolkit
 Type: Package
 Title: Toolkit of Helper Functions
-Version: 0.1.0.9046
-Date: 2018-03-18
-Authors@R: "Stefan Avey <stefan.avey@yale.edu> [aut, cre]"
+Version: 0.1.1.0000
+Date: 2020-03-03
+Authors@R: "Stefan Avey <avey.stefan@gmail.com> [aut, cre]"
 Description: Provides functionality for simple functions and plotting
     wrappers that are not associated with a specific project. Some functions were
     copied from StackOverflow answers or other online sites while others are original.
@@ -11,6 +11,17 @@ Description: Provides functionality for simple functions and plotting
 Depends:
     R (>= 3.0.2)
 License: CC BY-NC-SA 4.0
-BugReports: https://bitbucket.org/spa23/aveytoolkit-r-package/issues
+BugReports: https://github.com/stefanavey/aveytoolkit/issues
 LazyData: true
 RoxygenNote: 7.0.2
+Imports: 
+    ggplot2,
+    gplots,
+    grDevices,
+    RColorBrewer,
+    gtable,
+    rlang,
+    purrr,
+    grid
+Suggests: 
+    knitr

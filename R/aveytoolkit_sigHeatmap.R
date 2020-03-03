@@ -14,7 +14,6 @@
 #' @param hclustMethod passed to the function stats::hclust.  The agglomeration method to be used. This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC). Default is "ward.D".
 #' @param ... other arguments passed to heatmap.2
 #' @return a vector indicating which of the rows of hm were determined to be significant and subsequently plotted
-#' @importFrom gplots heatmap.2
 #' @details Only rows with at least one significant column are plotted. If showOnly is "both", plots both positive and negative significant changes. If showOnly is "positive" or "negative", plots only rows of hm with significant positive or negative values respectively. If showOnly is "all", all rows of hm are shown.
 #' @author Stefan Avey
 #' @keywords aveytoolkit
@@ -49,7 +48,6 @@ sigHeatmap <- function(hm, pvals, pvalDisplayName="P-value", cutoff=0.05,
     sigChar <- sigChar[1]
     warning("sigChar has more than one character, only the first will be used")
   }
-#  require(gplots) # for heatmap function
   pvals <- as.data.frame(pvals)         
   showOnly <- match.arg(showOnly)       
   subset <- rep(NA, nrow(pvals))
@@ -92,7 +90,7 @@ sigHeatmap <- function(hm, pvals, pvalDisplayName="P-value", cutoff=0.05,
     main <- paste(paste(rep('\n', mainNewlines), collapse=''), main)
   if(pvalDisplayName != "")
     main <- paste0(main, paste(rep('\n', 2), collapse=''), pvalDisplayName, " < ", cutoff)
-  heatmap.2(hm[subset,], cellnote=cn, Rowv=hrd, main=main, ...)
+    gplots::heatmap.2(hm[subset,], cellnote=cn, Rowv=hrd, main=main, ...)
 
   return(invisible(which(subset))) # return subset
 }

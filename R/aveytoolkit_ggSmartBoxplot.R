@@ -23,7 +23,6 @@
 ##' ggplot: the ggplot object to be plotted (this can be added to
 ##' dat: a named list of the data frame(s) passed to data in ggplot.  The names come from converting the rows argument to a character vector.
 ##' @import ggplot2
-##' @importFrom grid unit
 ##' @author Stefan Avey
 ##' @keywords aveytoolkit
 ##' @seealso \code{\link{ggplot2}}, \code{\link{qplot}}
@@ -58,7 +57,6 @@ ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, r
                            whichCols=NA, sep='.', outlier.shape=17,
                            ylab=NULL, space="fixed", scales="fixed",
                            fileName=NA, plot=TRUE, ...)  {
-#  require(ggplot2)
   if(is.character(fileName))
     pdf(fileName)
   datList <- vector(mode="list", length=length(rows))
@@ -134,7 +132,7 @@ ggSmartBoxplot <- function(x, mat, splitRowBy=NA, splitColBy=NA, colorBy=NULL, r
                              aes(x=x2),
                              position=position_jitter(width=0.1)) +
                    theme_bw() +
-                     theme(plot.margin=unit(c(5, 3, 5, 10), "mm"),
+                     theme(plot.margin = grid::unit(c(5, 3, 5, 10), "mm"),
                            text=element_text(size=16),
                            axis.title.x = element_text(vjust=-.75),
                            axis.title.y = element_text(vjust=1.00))

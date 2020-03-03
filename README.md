@@ -15,7 +15,7 @@ The following R packages are required for proper installation: `remotes` `ggplot
 Install these from the R prompt by running
 
 ```
-install.packages(c("remotes", "ggplot2", "gplots"))
+install.packages(c("ggplot2", "gplots"))
 
 ```
 

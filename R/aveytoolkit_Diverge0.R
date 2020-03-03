@@ -9,7 +9,6 @@
 ##' @param maxColors the maximum number of colors you wish to interpolate. The number returned will be at most this number.
 ##' @return a named list with two elements: breaks and colors
 ##' @details Inspired by John Baumgartner's function to diverge a color scale for an image (see reference). I use this function often when making a heatmap and I have a diverging color pallete where I want the middle color (usually white) to map to a zero value.  When the distribution is skewed from 0 this doesn't happen by default using \code{pheatmap} (but it does happen automatically for some other heatmap functions like \code{heatmap.2}). This function can be used to get the colors and breaks to pass to the \code{pheatmap} function.
-##' @import RColorBrewer
 ##' @author John Baumgartner, Stefan Avey
 ##' @references \url{https://gist.github.com/johnbaums/306e4b7e69c87b1826db}
 ##' @examples
@@ -26,12 +25,13 @@
 ##' 
 ##' @export
 Diverge0 <- function(data, ramp, reverse = FALSE, maxColors = 256) {
+    info <- RColorBrewer::brewer.pal.info
   if (length(ramp) == 1 && is.character(ramp) && ramp %in% 
-      row.names(brewer.pal.info)) {
-    if (as.character(brewer.pal.info[ramp, "category"]) != "div") {
+      row.names(info)) {
+    if (as.character(info[ramp, "category"]) != "div") {
       stop("ramp should be a diverging color pallete, not qualitative or sequential.")
     }
-    ramp <- suppressWarnings(colorRampPalette(brewer.pal(11, ramp)))
+    ramp <- suppressWarnings(grDevices::colorRampPalette(RColorBrewer::brewer.pal(11, ramp)))
   } else if (length(ramp) > 1 && is.character(ramp) &&
              all(ramp %in% grDevices::colors())) {
       ramp <- grDevices::colorRampPalette(ramp)

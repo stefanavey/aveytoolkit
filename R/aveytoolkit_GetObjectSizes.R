@@ -1,8 +1,8 @@
-##' @title GetObjectSizes
+##' GetObjectSizes
 ##'
-##' @description
 ##' \code{GetObjectSizes} uses \code{ls()} and \code{object.size} to see what
 ##' objects are using most of the memory. \code{lsos()} is better for this purpose.
+##' 
 ##' @param name which environment to use in listing the available objects.
 ##'             Defaults to the _current_ environment.  Although called
 ##'             ‘name’ for back compatibility, in fact this argument can
@@ -15,7 +15,6 @@
 ##'             ‘"auto"’ (see ‘Details’ of \code{object.size}).  Can be abbreviated.
 ##' @return A named character vector with names corresponding to objects and values
 ##'         corresponding to strings in human-readable format
-##' @details
 ##' 
 ##' @author Stefan Avey
 ##' @keywords aveytoolkit

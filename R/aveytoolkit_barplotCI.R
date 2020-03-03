@@ -12,7 +12,6 @@
 ##' If \code{beside} is true, use \code{colMeans(mp)} for the midpoints of each _group_ of bars, see example.
 ##'
 ##' @author Christopher Bolen (creator) ; Stefan Avey (modified)
-##' @importFrom gplots barplot2
 ##' @export 
 barplotCI <- function(x, CIs=NULL, compareTo=1, ...) {
   ## require(gplots)
@@ -34,7 +33,7 @@ barplotCI <- function(x, CIs=NULL, compareTo=1, ...) {
   ci.u <- means+CIs
   ci.l <- means-CIs
   ## Barplot
-  xloc = barplot2(means,plot.ci=TRUE,ci.u=ci.u,ci.l=ci.l,beside=TRUE, ci.lwd=2, ...)
+  xloc = gplots::barplot2(means,plot.ci=TRUE,ci.u=ci.u,ci.l=ci.l,beside=TRUE, ci.lwd=2, ...)
   ## Add significance
   if( (compareTo > 0) & (compareTo <= lx) ){
     ps = as.matrix(sapply(1:lx,function(i){

@@ -7,7 +7,6 @@
 ##' @param tlength number of rows to include at tail
 ##' @param digits digits to show for numeric values
 ##' @return returns NULL invisibly
-##' @importFrom knitr kable
 ##'
 ##' @author ESS R package, modified by Stefan Avey
 ##'
@@ -16,7 +15,7 @@
 ##' @export
 ahtsummary <- function(x, hlength = 5, tlength = 5, digits = 2, markdown = FALSE) {
     .convert <- function(x) {
-        if (require("knitr") && markdown) {
+        if (requireNamespace("knitr", quietly = TRUE) && markdown) {
             return(knitr::kable(x))
         } else {
             return(base::I(x))
