@@ -10,17 +10,12 @@
 
 ### Dependencies ###
 
-The following R packages are required for proper installation: `devtools` `ggplot2` `gplots` `limma`
+The following R packages are required for proper installation: `remotes` `ggplot2` `gplots`.
 
 Install these from the R prompt by running
 
 ```
-## remotes, ggplot2, gplots
 install.packages(c("remotes", "ggplot2", "gplots"))
-
-## limma
-source("https://bioconductor.org/biocLite.R")
-biocLite("limma")
 
 ```
 

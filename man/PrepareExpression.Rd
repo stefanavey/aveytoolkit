@@ -4,8 +4,14 @@
 \alias{PrepareExpression}
 \title{PrepareExpression}
 \usage{
-PrepareExpression(eset, target, returnProbes = TRUE, labelColumn = "Label",
-  select = colnames(target), collapse = ".")
+PrepareExpression(
+  eset,
+  target,
+  returnProbes = TRUE,
+  labelColumn = "Label",
+  select = colnames(target),
+  collapse = "."
+)
 }
 \arguments{
 \item{eset}{expression information and (potentially) other columns}

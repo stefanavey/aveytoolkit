@@ -3,7 +3,6 @@
 \docType{package}
 \name{aveytoolkit}
 \alias{aveytoolkit}
-\alias{aveytoolkit-package}
 \title{aveytoolkit.}
 \description{
 aveytoolkit.

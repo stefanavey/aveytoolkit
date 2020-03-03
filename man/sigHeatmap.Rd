@@ -4,10 +4,19 @@
 \alias{sigHeatmap}
 \title{sigHeatmap}
 \usage{
-sigHeatmap(hm, pvals, pvalDisplayName = "P-value", cutoff = 0.05,
-  showOnly = c("both", "positive", "negative", "all"), main = "",
-  mainNewlines = 0, sigChar = "*", Rowv = T, hclustMethod = "ward.D",
-  ...)
+sigHeatmap(
+  hm,
+  pvals,
+  pvalDisplayName = "P-value",
+  cutoff = 0.05,
+  showOnly = c("both", "positive", "negative", "all"),
+  main = "",
+  mainNewlines = 0,
+  sigChar = "*",
+  Rowv = T,
+  hclustMethod = "ward.D",
+  ...
+)
 }
 \arguments{
 \item{hm}{a matrix of values used for drawing the heatmap}

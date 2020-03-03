@@ -4,8 +4,16 @@
 \alias{FoldChange}
 \title{FoldChange}
 \usage{
-FoldChange(x, condNum, condDen, conditions, grouping, preserveOrder = FALSE,
-  log2Transform = FALSE, oper = c("subtract", "divide"))
+FoldChange(
+  x,
+  condNum,
+  condDen,
+  conditions,
+  grouping,
+  preserveOrder = FALSE,
+  log2Transform = FALSE,
+  oper = c("subtract", "divide")
+)
 }
 \arguments{
 \item{x}{matrix or data.frame from which to calculate fold changes with samples in columns.}

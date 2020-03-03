@@ -4,8 +4,12 @@
 \alias{INT}
 \title{INT}
 \usage{
-INT(x, na.last = "keep", ties.method = c("average", "first", "last",
-  "random", "max", "min"), ...)
+INT(
+  x,
+  na.last = "keep",
+  ties.method = c("average", "first", "last", "random", "max", "min"),
+  ...
+)
 }
 \arguments{
 \item{x}{numeric vector to be transformed}

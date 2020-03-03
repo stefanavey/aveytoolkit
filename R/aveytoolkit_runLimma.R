@@ -28,7 +28,6 @@
 ##' the fit object to get the information.
 ##' 
 ##' For other comparisons, you can look at the LIMMA user guide: limmaUsersGuide()
-##' @import limma
 ##' @author Christopher Bolen, Stefan Avey
 ##' @keywords aveytoolkit
 ##' @seealso \code{\link{limma}}
@@ -57,6 +56,11 @@ runLimma  <- function (eset, labels, contrasts, block = NULL, covariates = NULL,
                        min.fold.change = 1, min.intensity = 4, p.cutoff = 0.05, 
                        fitOnly = FALSE, robust = FALSE, ...) 
 {
+    if (!require(limma)) {
+        stop("runLimma requires the Bioconductor limma package.\n",
+             "Please install with get_bioc(\"limma\")")  
+    }
+
   tooLow = eset < min.intensity
   drop = apply(tooLow, 1, all)
   eset = eset[!drop, ]

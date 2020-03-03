@@ -4,9 +4,17 @@
 \alias{collapseDataset}
 \title{collapseDataset}
 \usage{
-collapseDataset(exprsVals, platform = NULL, mapVector = NULL, oper = max,
-  prefer = c("none", "up", "down"), singleProbeset = FALSE,
-  returnProbes = FALSE, deProbes = NULL, debug = FALSE)
+collapseDataset(
+  exprsVals,
+  platform = NULL,
+  mapVector = NULL,
+  oper = max,
+  prefer = c("none", "up", "down"),
+  singleProbeset = FALSE,
+  returnProbes = FALSE,
+  deProbes = NULL,
+  debug = FALSE
+)
 }
 \arguments{
 \item{exprsVals}{a matrix or data.frame of numeric values with rownames denoting the identifiers.}

@@ -4,9 +4,15 @@
 \alias{annotatePDFs}
 \title{annotatePDFs}
 \usage{
-annotatePDFs(host = "localhost", inFiles, outFiles, titles = NULL,
-  footers = NULL, combineMultiple = TRUE,
-  removeMultiple = combineMultiple)
+annotatePDFs(
+  host = "localhost",
+  inFiles,
+  outFiles,
+  titles = NULL,
+  footers = NULL,
+  combineMultiple = TRUE,
+  removeMultiple = combineMultiple
+)
 }
 \arguments{
 \item{host}{name of the host (e.g. <<user>>@<<IP Address>>)}

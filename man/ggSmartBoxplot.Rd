@@ -4,10 +4,24 @@
 \alias{ggSmartBoxplot}
 \title{ggSmartBoxplot}
 \usage{
-ggSmartBoxplot(x, mat, splitRowBy = NA, splitColBy = NA, colorBy = NULL,
-  rows, cols = NA, whichCols = NA, sep = ".", outlier.shape = 17,
-  ylab = NULL, space = "fixed", scales = "fixed", fileName = NA,
-  plot = TRUE, ...)
+ggSmartBoxplot(
+  x,
+  mat,
+  splitRowBy = NA,
+  splitColBy = NA,
+  colorBy = NULL,
+  rows,
+  cols = NA,
+  whichCols = NA,
+  sep = ".",
+  outlier.shape = 17,
+  ylab = NULL,
+  space = "fixed",
+  scales = "fixed",
+  fileName = NA,
+  plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{the variable to group by for boxplots}

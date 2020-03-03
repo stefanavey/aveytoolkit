@@ -4,8 +4,12 @@
 \alias{writeGMT}
 \title{aveytoolkit_writeGMT.R}
 \usage{
-writeGMT(filename, sets, setNames = names(sets), setDescriptions = rep(NA,
-  length(sets)))
+writeGMT(
+  filename,
+  sets,
+  setNames = names(sets),
+  setDescriptions = rep(NA, length(sets))
+)
 }
 \arguments{
 \item{filename}{the file to write to (should include '.gmt' extension}

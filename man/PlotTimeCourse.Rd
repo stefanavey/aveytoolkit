@@ -4,11 +4,29 @@
 \alias{PlotTimeCourse}
 \title{PlotTimeCourse}
 \usage{
-PlotTimeCourse(x, y, colors, groups, sampleNames, pch = 19, plotTitle = "",
-  legend.loc = "topleft", plotType = c("times", "points"), alpha = 0.15,
-  cex.pt = 1, cex.time = 2, time.adj = c(-0.3, -0.3), arrLen = 0.1,
-  lwd = 3, numRep = 3, plotFont = NULL, ctrl = TRUE, hourMarks = TRUE,
-  legend.cex = 2, ...)
+PlotTimeCourse(
+  x,
+  y,
+  colors,
+  groups,
+  sampleNames,
+  pch = 19,
+  plotTitle = "",
+  legend.loc = "topleft",
+  plotType = c("times", "points"),
+  alpha = 0.15,
+  cex.pt = 1,
+  cex.time = 2,
+  time.adj = c(-0.3, -0.3),
+  arrLen = 0.1,
+  lwd = 3,
+  numRep = 3,
+  plotFont = NULL,
+  ctrl = TRUE,
+  hourMarks = TRUE,
+  legend.cex = 2,
+  ...
+)
 }
 \arguments{
 \item{x}{x-values for plotting}
