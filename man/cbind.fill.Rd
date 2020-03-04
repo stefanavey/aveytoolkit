@@ -16,9 +16,10 @@ the cbind'ed objects passed in
 Simple function to combine multiple objects by column while filling in NAs into extra rows created from differing lengths
 }
 \examples{
-x<-matrix(1:10,5,2)
-y<-matrix(1:16, 4,4)
-z<-matrix(1:12, 2,6)
+
+x <- matrix(1:10, 5, 2)
+y <- matrix(1:16, 4, 4)
+z <- matrix(1:12, 2, 6)
 
 cbind.fill(x,y)
 cbind.fill(x,y,z)

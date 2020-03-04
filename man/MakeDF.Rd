@@ -4,12 +4,12 @@
 \alias{MakeDF}
 \title{MakeDF}
 \usage{
-MakeDF(list, names)
+MakeDF(List, Names)
 }
 \arguments{
-\item{list}{the list to convert}
+\item{List}{the list to convert}
 
-\item{names}{the names of the list}
+\item{Names}{the names of the list}
 }
 \value{
 a data frame of the converted list.
@@ -17,15 +17,6 @@ a data frame of the converted list.
 \description{
 Creates a data frame from a list.  Useful for when the list elements have unequal lengths and
 \code{\link{as.data.frame}} fails.
-}
-\examples{
-## Test timing with a 50k-item list
-ll <- createList(50000)
-nms <- c("a", "b", "c")
-
-system.time(makeDF(ll, nms))
-# user  system elapsed
-# 0.47    0.00    0.47 
 }
 \references{
 \url{http://stackoverflow.com/questions/15753091/convert-mixed-length-named-list-to-data-frame}
